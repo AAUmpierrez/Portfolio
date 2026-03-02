@@ -1,0 +1,59 @@
+﻿using BussinesLogic.Entities;
+using BussinesLogic.Enums;
+using BussinesLogic.Exceptions;
+using BussinesLogic.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
+using SharedLogic.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataAccessLogic.Repositories
+{
+    public class TicketRepository : ITicketRepository
+    {
+        private Context _context { get; set; }
+        public TicketRepository(Context context)
+        {
+            _context = context;
+        }
+
+        public async Task AddAsync(Ticket item)
+        {
+           if(item != null)
+            {
+                _context.Tickets.Add(item);
+                await _context.SaveChangesAsync();
+            }else throw new TicketException("Error. Ticket can not be added");
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+        }
+
+        public async Task<IEnumerable<Ticket>> GetAllAsync()
+        {
+            return await _context.Tickets.IgnoreQueryFilters().ToListAsync();
+        }
+
+        public async Task<Ticket> GetAsync(int id)
+        {
+            return await _context.Tickets.Include(t => t.Comments)
+                                        .Include(t => t.CreatorUserId)
+                                        .Include(t => t.AssignedUser)
+                                        .SingleOrDefaultAsync(t => t.Id == id);
+        }
+
+        public async Task UpdateAsync(Ticket item)
+        {           
+            if(item != null)
+            {
+                _context.Tickets.Update(item);
+                await _context.SaveChangesAsync();
+            }else throw new TicketException("Error. Ticket can not be updated");
+        }
+
+    }
+}

@@ -1,0 +1,28 @@
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\AplicationLogic\bin\Debug\net8.0\AplicationLogic.deps.json
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\AplicationLogic\bin\Debug\net8.0\AplicationLogic.dll
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\AplicationLogic\bin\Debug\net8.0\AplicationLogic.pdb
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.AssemblyInfoInputs.cache
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.AssemblyInfo.cs
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.csproj.CoreCompileInputs.cache
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.dll
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\AplicationLogic\obj\Debug\net8.0\refint\AplicationLogic.dll
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.pdb
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\AplicationLogic\obj\Debug\net8.0\ref\AplicationLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\bin\Debug\net8.0\AplicationLogic.deps.json
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\bin\Debug\net8.0\AplicationLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\bin\Debug\net8.0\AplicationLogic.pdb
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.AssemblyInfoInputs.cache
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.AssemblyInfo.cs
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.csproj.CoreCompileInputs.cache
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\refint\AplicationLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.pdb
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\ref\AplicationLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.csproj.AssemblyReference.cache
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\bin\Debug\net8.0\BussinesLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\bin\Debug\net8.0\SharedLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\bin\Debug\net8.0\BussinesLogic.pdb
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\bin\Debug\net8.0\SharedLogic.pdb
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\Aplicati.54A1F62A.Up2Date
