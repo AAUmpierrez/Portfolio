@@ -26,7 +26,7 @@ namespace BussinesLogic.Entities
 
 
         //Constructors
-        public Ticket() { }
+        protected Ticket() { }
 
         public Ticket(string title, string description, TicketPriority priority, int creatorUserId)
         {

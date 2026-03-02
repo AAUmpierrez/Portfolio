@@ -16,7 +16,7 @@ namespace BussinesLogic.Entities
         public bool IsInternal { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public UserComment() { }
+        private UserComment() { }
         public UserComment(int userId, string content, bool isInternal)
         {
             UserId = userId;

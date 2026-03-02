@@ -24,3 +24,4 @@ C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.csp
 C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\bin\Debug\net8.0\BussinesLogic.dll
 C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\bin\Debug\net8.0\BussinesLogic.pdb
 C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLo.F0043907.Up2Date
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.sourcelink.json

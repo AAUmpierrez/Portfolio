@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Users\Commands\**" />
+    <EmbeddedResource Remove="Users\Commands\**" />
+    <None Remove="Users\Commands\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BussinesLogic\BussinesLogic.csproj" />
     <ProjectReference Include="..\SharedLogic\SharedLogic.csproj" />
   </ItemGroup>

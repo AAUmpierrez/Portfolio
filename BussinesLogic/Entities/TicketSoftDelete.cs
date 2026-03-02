@@ -14,6 +14,7 @@ namespace BussinesLogic.Entities
         public DateTime? DeletedAt { get; protected set; }
         public int? DeletedById { get; protected set; }
 
+        protected TicketSoftDelete() { }
         public void SoftDelete(int userId)
         {
             if (IsDeleted) return;

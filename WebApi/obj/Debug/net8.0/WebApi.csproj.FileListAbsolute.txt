@@ -310,3 +310,4 @@ C:\Users\aau19\PortFolio\TicketFlow\WebApi\bin\Debug\net8.0\DataAccessLogic.pdb
 C:\Users\aau19\PortFolio\TicketFlow\WebApi\bin\Debug\net8.0\BussinesLogic.pdb
 C:\Users\aau19\PortFolio\TicketFlow\WebApi\bin\Debug\net8.0\SharedLogic.dll
 C:\Users\aau19\PortFolio\TicketFlow\WebApi\bin\Debug\net8.0\SharedLogic.pdb
+C:\Users\aau19\PortFolio\TicketFlow\WebApi\obj\Debug\net8.0\WebApi.sourcelink.json

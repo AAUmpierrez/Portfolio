@@ -26,3 +26,4 @@ C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\bin\Debug\net8.0\SharedLogic
 C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\bin\Debug\net8.0\BussinesLogic.pdb
 C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\bin\Debug\net8.0\SharedLogic.pdb
 C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\Aplicati.54A1F62A.Up2Date
+C:\Users\aau19\PortFolio\TicketFlow\AplicationLogic\obj\Debug\net8.0\AplicationLogic.sourcelink.json
