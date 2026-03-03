@@ -1,0 +1,27 @@
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\SharedLogic\bin\Debug\net8.0\SharedLogic.deps.json
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\SharedLogic\bin\Debug\net8.0\SharedLogic.dll
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\SharedLogic\bin\Debug\net8.0\SharedLogic.pdb
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.AssemblyInfoInputs.cache
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.AssemblyInfo.cs
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.csproj.CoreCompileInputs.cache
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.dll
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\SharedLogic\obj\Debug\net8.0\refint\SharedLogic.dll
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.pdb
+C:\Users\aau19\OneDrive\Documentos\My Web Sites\TicketFlow\TicketFlow\SharedLogic\obj\Debug\net8.0\ref\SharedLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\bin\Debug\net8.0\SharedLogic.deps.json
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\bin\Debug\net8.0\SharedLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\bin\Debug\net8.0\SharedLogic.pdb
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.AssemblyInfoInputs.cache
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.AssemblyInfo.cs
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.csproj.CoreCompileInputs.cache
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\refint\SharedLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.pdb
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\ref\SharedLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.csproj.AssemblyReference.cache
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\bin\Debug\net8.0\BussinesLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\bin\Debug\net8.0\BussinesLogic.pdb
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLo.F0043907.Up2Date
+C:\Users\aau19\PortFolio\TicketFlow\SharedLogic\obj\Debug\net8.0\SharedLogic.sourcelink.json

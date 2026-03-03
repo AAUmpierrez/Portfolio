@@ -12,6 +12,9 @@ namespace DataAccessLogic
         public DbSet<TicketComment> TicketComments { get; set; }
         public DbSet<UserComment> UserComments { get; set; }
         public DbSet<Audit> Audits {  get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Permission> Permissions {  get; set; }
+        public DbSet<TicketHistory>TicketHistories { get; set; }
         public Context(DbContextOptions<Context> options) : base(options)
         {
         }
@@ -31,46 +34,130 @@ namespace DataAccessLogic
                 .HasForeignKey(t => t.AssignedUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<User>(builder =>
+            {
+                builder.HasKey(u => u.Id);
+
+                builder.HasMany(u => u.Comments)
+                       .WithOne(c => c.User)
+                       .HasForeignKey(c => c.UserId)
+                       .OnDelete(DeleteBehavior.Restrict);
+
+                builder.Navigation(u => u.Comments)
+                       .UsePropertyAccessMode(PropertyAccessMode.Field);
+            });
+            modelBuilder.Entity<UserComment>(builder =>
+            {
+                builder.HasKey(c => c.Id);
+
+                builder.Property(c => c.Content)
+                       .IsRequired()
+                       .HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<User>(user =>
+            {
+                user.HasKey(u => u.Id);
+
+                user.HasOne(u => u.Role)
+                    .WithMany() 
+                    .IsRequired();
+            });
             modelBuilder.Entity<User>()
-                .OwnsMany(u => u.Comments, builder =>
-                {
-                    builder.WithOwner().HasForeignKey(c => c.UserId);
-                    builder.HasKey(c => c.Id);
-                });
+                .HasQueryFilter(u =>u.Status == UserStatus.Active);
+
+
+            modelBuilder.Entity<User>(builder =>
+            {
+                builder.Navigation(r => r.UserPermissions)
+                       .UsePropertyAccessMode(PropertyAccessMode.Field);
+            });
+            modelBuilder.Entity<UserPermission>(up =>
+            {
+                up.HasKey(x => new { x.UserId, x.PermissionId });
+
+                up.HasOne(x => x.User)
+                  .WithMany(u => u.UserPermissions)
+                  .HasForeignKey(x => x.UserId)
+                  .IsRequired();
+
+                up.HasOne(x => x.Permission)
+                  .WithMany()
+                  .HasForeignKey(x => x.PermissionId)
+                  .IsRequired();
+            });
+
+
+
+
 
             modelBuilder.Entity<Ticket>()
                 .HasQueryFilter(t => !t.IsDeleted);
 
-            modelBuilder.Entity<Ticket>()
-                .HasMany(t => t.Comments)
-                .WithOne(c => c.Ticket)
-                .HasForeignKey(c => c.TicketId)
-                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Ticket>()
-                .OwnsMany(t => t.Comments,builder => {
-                    builder.WithOwner().HasForeignKey(c => c.TicketId);
-                    builder.HasKey(c => c.Id);
-                });
-            modelBuilder.Entity<User>()
-                .HasQueryFilter(u =>u.Status == UserStatus.Active);
+            modelBuilder.Entity<Ticket>(builder =>
+            {
+                builder.HasKey(t => t.Id);
+
+                builder.HasMany(t => t.Comments)
+                       .WithOne(c => c.Ticket)
+                       .HasForeignKey(c => c.TicketId)
+                       .OnDelete(DeleteBehavior.Restrict);
+
+                builder.Navigation(t => t.Comments)
+                       .UsePropertyAccessMode(PropertyAccessMode.Field);
+            });
+
+            modelBuilder.Entity<TicketComment>(builder =>
+            {
+                builder.HasKey(c => c.Id);
+
+                builder.Property(c => c.Content)
+                       .IsRequired()
+                       .HasMaxLength(1000);
+             
+            });
 
             modelBuilder.Entity<Ticket>()
                 .HasMany(t => t.History)
                 .WithOne(h => h.Ticket)
                 .HasForeignKey(h => h.TicketId)
                 .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Ticket>(e =>
             {
                 e.Property(t => t.RowVersion)
                 .IsRowVersion();
             });
-                
+
+            modelBuilder.Entity<Role>(builder =>
+            {
+                builder.Navigation(r => r.RolPermissions)
+                       .UsePropertyAccessMode(PropertyAccessMode.Field);
+            });
+            modelBuilder.Entity<RolePermission>(rp =>
+            {
+                rp.HasKey(x => new { x.RoleId, x.PermissionId });
+
+                rp.HasOne(x => x.Role)
+                  .WithMany(r => r.RolPermissions)
+                  .HasForeignKey(x => x.RoleId)
+                  .IsRequired();
+
+                rp.HasOne(x => x.Permission)
+                  .WithMany()
+                  .HasForeignKey(x => x.PermissionId)
+                  .IsRequired();
+            });
+
+
+          
+
         }
 
 
         public override async Task<int> SaveChangesAsync(
-    CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default)
         {
             var auditEntries = new List<Audit>();
 
@@ -87,15 +174,15 @@ namespace DataAccessLogic
                     continue;
 
                 var audit = new Audit
-                {
-                    UserId = 1, // 🔥 después lo conectamos al JWT
-                    Date = DateTime.UtcNow,
-                    TableName = entry.Metadata.GetTableName(),
-                    Action = entry.State.ToString(),
-                    RecordId = entry.Properties
-                        .FirstOrDefault(p => p.Metadata.IsPrimaryKey())?
-                        .CurrentValue?.ToString()
-                };
+                (
+                    DateTime.UtcNow,
+                    1, // 🔥 después lo conectamos al JWT
+                    entry.State.ToString(),
+                    entry.Metadata.GetTableName()                   
+                );
+                audit.RecordId = entry.Properties
+                       .FirstOrDefault(p => p.Metadata.IsPrimaryKey())?
+                       .CurrentValue?.ToString();
 
                 var oldValues = new Dictionary<string, object>();
                 var newValues = new Dictionary<string, object>();

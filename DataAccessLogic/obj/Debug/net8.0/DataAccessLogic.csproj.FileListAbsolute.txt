@@ -34,3 +34,4 @@ C:\Users\aau19\PortFolio\TicketFlow\DataAccessLogic\obj\Debug\net8.0\DataAccessL
 C:\Users\aau19\PortFolio\TicketFlow\DataAccessLogic\obj\Debug\net8.0\ref\DataAccessLogic.dll
 C:\Users\aau19\PortFolio\TicketFlow\DataAccessLogic\bin\Debug\net8.0\SharedLogic.dll
 C:\Users\aau19\PortFolio\TicketFlow\DataAccessLogic\bin\Debug\net8.0\SharedLogic.pdb
+C:\Users\aau19\PortFolio\TicketFlow\DataAccessLogic\obj\Debug\net8.0\DataAccessLogic.sourcelink.json

@@ -41,6 +41,7 @@ namespace DataAccessLogic.Repositories
                                   .Include(u=>u.CreatedTickets)
                                   .Include(u=>u.AssignedTickets)
                                   .Include (u=>u.Comments)
+                                  .Include (u =>u.Role)
                                   .SingleOrDefaultAsync(u => u.Id==id);
             return u;
         }

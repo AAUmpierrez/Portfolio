@@ -9,14 +9,14 @@ namespace BussinesLogic.Entities
 {
     public class RolePermission
     {
-        public int RoleId { get; private set; }
-        public Role Role { get; private set; }
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
 
-        public int PermissionId { get; private set; }
-        public Permission Permission { get; private set; }
+        public int PermissionId { get; set; }
+        public Permission Permission { get; set; }
 
-        public bool IsEnabled { get; private set; }
-        public bool IsBase { get; private set; }
+        public bool IsEnabled { get; set; }
+        public bool IsBase { get; set; }
 
         private RolePermission() { }
 

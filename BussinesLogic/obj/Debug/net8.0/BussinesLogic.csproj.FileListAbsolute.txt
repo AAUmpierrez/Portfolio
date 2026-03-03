@@ -20,3 +20,4 @@ C:\Users\aau19\PortFolio\TicketFlow\BussinesLogic\obj\Debug\net8.0\BussinesLogic
 C:\Users\aau19\PortFolio\TicketFlow\BussinesLogic\obj\Debug\net8.0\refint\BussinesLogic.dll
 C:\Users\aau19\PortFolio\TicketFlow\BussinesLogic\obj\Debug\net8.0\BussinesLogic.pdb
 C:\Users\aau19\PortFolio\TicketFlow\BussinesLogic\obj\Debug\net8.0\ref\BussinesLogic.dll
+C:\Users\aau19\PortFolio\TicketFlow\BussinesLogic\obj\Debug\net8.0\BussinesLogic.sourcelink.json

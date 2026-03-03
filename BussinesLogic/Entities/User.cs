@@ -29,7 +29,7 @@ namespace BussinesLogic.Entities
         public ICollection<Ticket> AssignedTickets { get; set; } = new List<Ticket>();
         public ICollection<UserComment> Comments { get; set; } = new List<UserComment>();
         private readonly List<UserPermission> _userPermissions = new();
-        public IReadOnlyCollection<UserPermission> UserPermissions => _userPermissions;
+        public IReadOnlyCollection<UserPermission> UserPermissions => _userPermissions.AsReadOnly();
 
 
         private User() { }

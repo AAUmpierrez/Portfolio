@@ -1,12 +1,21 @@
 # Visual Studio
 .vs/
 
+<<<<<<< HEAD
 # Build folders
+=======
+# Build
+>>>>>>> features/cqrs_implementation
 bin/
 obj/
 
 # User files
+<<<<<<< HEAD
 *.suo
 *.user
 *.cache
 *.db
+=======
+*.user
+*.suo
+>>>>>>> features/cqrs_implementation

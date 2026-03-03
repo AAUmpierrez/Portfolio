@@ -20,11 +20,11 @@ namespace BussinesLogic.Entities
         public string ChangedColumns { get; set; }
 
 
-        public Audit() { }
+        protected Audit() { }
         public Audit(DateTime date, int userId,string action, string tableName)
         {
-            UserId = userId;
             Date = date;
+            UserId = userId;
             Action = action;
             TableName = tableName;
             Validate();

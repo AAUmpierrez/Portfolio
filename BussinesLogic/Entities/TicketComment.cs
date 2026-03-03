@@ -17,7 +17,7 @@ namespace BussinesLogic.Entities
         public DateTime CreatedAt { get; set; }
 
 
-        public TicketComment() { }
+        private TicketComment() { }
 
         public TicketComment(int ticketId,string content,bool isInternal)
         {
