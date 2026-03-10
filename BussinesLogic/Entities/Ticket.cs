@@ -23,6 +23,7 @@ namespace BussinesLogic.Entities
         public byte[] RowVersion { get; private set; }  
         public ICollection<TicketComment> Comments { get; set; } = new List<TicketComment>();
         public ICollection<TicketHistory> History { get; set; } = new List<TicketHistory>();
+        public ICollection<TicketAttachment> Attachments { get; set; } = new List<TicketAttachment>();
 
 
         //Constructors

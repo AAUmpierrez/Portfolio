@@ -1,4 +1,4 @@
-namespace WebApi
+namespace TicketFlowApi
 {
     public class WeatherForecast
     {

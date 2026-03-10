@@ -14,7 +14,8 @@ namespace DataAccessLogic
         public DbSet<Audit> Audits {  get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Permission> Permissions {  get; set; }
-        public DbSet<TicketHistory>TicketHistories { get; set; }
+        public DbSet<TicketHistory> TicketHistories { get; set; }
+        public DbSet<TicketAttachment> TicketAttachments { get; set; }
         public Context(DbContextOptions<Context> options) : base(options)
         {
         }
@@ -87,10 +88,6 @@ namespace DataAccessLogic
                   .IsRequired();
             });
 
-
-
-
-
             modelBuilder.Entity<Ticket>()
                 .HasQueryFilter(t => !t.IsDeleted);
 
@@ -150,9 +147,10 @@ namespace DataAccessLogic
                   .IsRequired();
             });
 
-
-          
-
+            modelBuilder.Entity<TicketAttachment>()
+                  .HasOne(x => x.Ticket)
+                  .WithMany(x => x.Attachments)
+                  .HasForeignKey(x => x.TicketId);
         }
 
 
