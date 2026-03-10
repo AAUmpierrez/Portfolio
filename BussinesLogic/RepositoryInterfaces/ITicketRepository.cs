@@ -10,6 +10,6 @@ namespace BussinesLogic.RepositoryInterfaces
 {
     public interface ITicketRepository:IRepository<Ticket>
     {
-        
+        IQueryable<Ticket> Query();
     }
 }

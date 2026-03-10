@@ -15,5 +15,7 @@ namespace AplicationLogic.Tickets.Ticketinterf
         public int Priority { get; set; }
         public int State { get; set; }
         public int CreatorUser { get; set; }
+        public DateTime SlaDueDate { get; set; }
+
     }
 }

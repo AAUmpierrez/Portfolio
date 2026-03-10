@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BussinesLogic.Enums
+namespace AplicationLogic.Tickets.Dashboard
 {
-    public enum TicketPriority
+    public class GetTicketDashboardQuery
     {
-        Low = 1,
-        Medium= 2,
-        High = 3,
-        Critical = 4
+
     }
 }

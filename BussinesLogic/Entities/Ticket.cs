@@ -14,11 +14,14 @@ namespace BussinesLogic.Entities
         public User CreatorUser { get; set; }
         public int? AssignedUserId { get; set; } 
         public User? AssignedUser { get; set; }
-        public DateTime AssignedDate { get; set; }
         public int? ResolvedById { get; set; }
         public User? ResolvedBy { get; set; }
+        public DateTime AssignedDate { get; set; }
+        public DateTime ResolvedAt { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime? ClosingDate { get; set; }
+        public DateTime SlaDueDate { get; set; }
+        public bool IsSlaBreached { get; set; }
         public int? ClosedBy { get; set; }
         public byte[] RowVersion { get; private set; }  
         public ICollection<TicketComment> Comments { get; set; } = new List<TicketComment>();
@@ -28,7 +31,7 @@ namespace BussinesLogic.Entities
         //Constructors
         protected Ticket() { }
 
-        public Ticket(string title, string description, TicketPriority priority, int creatorUserId)
+        public Ticket(string title, string description, TicketPriority priority, int creatorUserId, DateTime slaDueDate)
         {
             Title = string.Empty;
             Description = string.Empty;
@@ -36,6 +39,7 @@ namespace BussinesLogic.Entities
             Priority = priority;
             CreatorUserId = creatorUserId;
             CreationDate = DateTime.Now;
+            SlaDueDate = slaDueDate;
             Validate();
         }
 
@@ -96,6 +100,7 @@ namespace BussinesLogic.Entities
             ResolvedById = resolvedByUserId;
             string oldValue = State.ToString();
             State = TicketState.Resolved;
+            IsSlaBreached = ResolvedAt > SlaDueDate;
             AddHistory(resolvedByUserId, "Resolved", oldValue, State.ToString());
         }
         public void Reopen(int userId)

@@ -1,5 +1,6 @@
 ﻿using AplicationLogic.Interfaces;
 using AplicationLogic.Tickets.Ticketinterf;
+using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
 using SharedLogic.DTOs.Ticket;
 using SharedLogic.Mappers;
@@ -20,9 +21,34 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
             _repository = repository;
         }
 
-        public async Task<IEnumerable<TicketListDto>> Execute(GetAllTicketQuery query)
+        public async Task<IEnumerable<TicketListDto>> Execute(GetAllTicketQuery request)
         {
             var tickets = await _repository.GetAllAsync();
+
+
+            var query = tickets.AsQueryable();
+
+            if (request.Priority > 0)
+            {
+                query = query.Where(t => t.Priority == (TicketPriority)request.Priority);
+            }
+
+            if (request.Status > 0)
+            {
+                query = query.Where(t => t.State == (TicketState)request.Status);
+            }
+
+            if (request.IsSlaBreached.HasValue)
+            {
+                query = query.Where(t => t.IsSlaBreached == request.IsSlaBreached);
+            }
+
+            if (request.OrderBySlaDueDate)
+            {
+                query = query.OrderBy(t => t.SlaDueDate);
+            }
+
+
             return TicketMapper.TicketsToTicketListDto(tickets.ToList());
         }
 

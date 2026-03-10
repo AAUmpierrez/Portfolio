@@ -1,18 +1,17 @@
 ﻿using BussinesLogic.Enums;
-using SharedLogic.DTOs.Ticket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplicationLogic.Tickets.Ticketinterf
+namespace AplicationLogic.Tickets.Filter
 {
-    public class GetAllTicketQuery
+    public class FilterQuery
     {
-        public int Priority { get; set; }
+        public TicketPriority? Priority { get; set; }
 
-        public int Status { get; set; }
+        public TicketState? Staste { get; set; }
 
         public bool? IsSlaBreached { get; set; }
 

@@ -18,7 +18,8 @@ namespace SharedLogic.Mappers
             Ticket ticket = new Ticket(tCommand.Title,
                                        tCommand.Description,
                                        (TicketPriority)tCommand.Priority,
-                                       tCommand.CreatorUser);
+                                       tCommand.CreatorUser,
+                                       tCommand.SlaDueDate);
             return ticket;
         }
 
@@ -30,10 +31,12 @@ namespace SharedLogic.Mappers
                 Title = t.Title,
                 Description = t.Description,
                 Priority = t.Priority.ToString(),
+                State = t.State.ToString(),
                 CreatorUser = (t.CreatorUser.FirstName + t.CreatorUser.LastName),
-                AssignedUser = (t.AssignedUser.FirstName + t.AssignedUser.LastName),
                 CreatedDate = t.CreationDate,
-                ClosingDate = t.ClosingDate,
+                SlaDueDate = t.SlaDueDate,
+                IsSlaBreached = t.IsSlaBreached,
+                TimeRemainig = t.SlaDueDate - DateTime.Now,
             });
         }
         public static Ticket UpdateTicketCommandToUpdateTicket(UpdateTicketCommand tCommand)
@@ -41,7 +44,8 @@ namespace SharedLogic.Mappers
             Ticket ticket = new Ticket(tCommand.Title,
                                        tCommand.Description,
                                        (TicketPriority)tCommand.Priority,
-                                       tCommand.CreatorUser);
+                                       tCommand.CreatorUser,
+                                       tCommand.SlaDueDate);
             return ticket;                                  
         }
 
