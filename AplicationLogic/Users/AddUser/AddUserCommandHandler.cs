@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using SharedLogic.Exceptions;
 using SharedLogic.Mappers;
 using AplicationLogic.Interfaces;
+using MediatR;
 
 namespace AplicationLogic.UseCasesInterface.User
 {
-    public class AddUserCommandHandler : ICommandHandler<AddUserCommand>
+    public class AddUserCommandHandler : IRequestHandler<AddUserCommand, int>
     {
         private IUserRepository _repository { get; set; }
 
@@ -19,10 +20,14 @@ namespace AplicationLogic.UseCasesInterface.User
         {
             _repository = repository;
         }
-        public async Task Execute(AddUserCommand command)
+
+
+        public async Task<int> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
-            if (command == null) throw new BadRequestException("Error. The entered data is incorrect. ");
-            await _repository.AddAsync(UserMapper.AddUserComandToUser(command));
+            if (request == null) throw new BadRequestException("Error. The entered data is incorrect. ");
+            var user = UserMapper.AddUserComandToUser(request);
+            await _repository.AddAsync(user);
+            return user.Id;
         }
     }
 }

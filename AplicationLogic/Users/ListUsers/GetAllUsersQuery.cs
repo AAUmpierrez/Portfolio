@@ -1,4 +1,5 @@
-﻿using SharedLogic.DTOs.User;
+﻿using MediatR;
+using SharedLogic.DTOs.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.UseCasesInterface.User
 {
-    public class GetAllUsersQuery
+    public class GetAllUsersQuery:IRequest<IEnumerable<UserListDto>>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

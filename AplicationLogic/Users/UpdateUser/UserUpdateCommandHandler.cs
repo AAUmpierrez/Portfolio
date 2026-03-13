@@ -1,5 +1,6 @@
 ﻿using AplicationLogic.Interfaces;
 using BussinesLogic.RepositoryInterfaces;
+using MediatR;
 using SharedLogic.DTOs.User;
 using SharedLogic.Exceptions;
 using SharedLogic.Mappers;
@@ -11,17 +12,22 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.UseCasesInterface.User
 {
-    public class UserUpdateCommandHandler : ICommandHandler<UpdateUserCommand>
+    public class UserUpdateCommandHandler : IRequestHandler<UpdateUserCommand>
     {
         private IUserRepository _userRepository {  get; set; }
         public UserUpdateCommandHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
-        public async Task Execute(UpdateUserCommand command)
+
+
+        public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            if (command == null) throw new BadRequestException("Error. Incorrect user data");
-            await _userRepository.UpdateAsync(UserMapper.UpdateUserComandToUser(command));
+            if (request == null) throw new BadRequestException("Error. Incorrect user data");
+            var user = UserMapper.UpdateUserComandToUser(request);
+            user.Id = request.UserId;
+            await _userRepository.UpdateAsync(user);
+
         }
     }
 }

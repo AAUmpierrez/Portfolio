@@ -1,5 +1,6 @@
 ﻿using AplicationLogic.Interfaces;
 using BussinesLogic.RepositoryInterfaces;
+using MediatR;
 using SharedLogic.DTOs.User;
 using SharedLogic.Mappers;
 using System;
@@ -10,19 +11,20 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.UseCasesInterface.User
 {
-    public class GetAllUsersQueryHandler :IQueryHandler<GetAllUsersQuery,IEnumerable<UserListDto>>
+    public class GetAllUsersQueryHandler :IRequestHandler<GetAllUsersQuery,IEnumerable<UserListDto>>
     {
         private IUserRepository _userRepository {  get; set; }
 
         public GetAllUsersQueryHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
+
         }
-        public async Task<IEnumerable<UserListDto>> Execute(GetAllUsersQuery query)
+
+        public async Task<IEnumerable<UserListDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
             var users = await _userRepository.GetAllAsync();
             return UserMapper.UsersToUsersDto(users.ToList());
         }
-
     }
 }

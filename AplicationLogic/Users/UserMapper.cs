@@ -47,7 +47,7 @@ namespace SharedLogic.Mappers
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Email = u.Email,
-                Rol = u.Role.ToString()
+                Rol = u.Role.Name
             });
         }
 

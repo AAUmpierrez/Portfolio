@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AplicationLogic.DTOs.User;
+using AplicationLogic.UseCasesInterface.User;
+using BussinesLogic.Exceptions;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using SharedLogic.DTOs.User;
+using SharedLogic.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +14,112 @@ namespace TicketFlowApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        // GET: api/<UserController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+        private readonly IMediator _mediator;
+
+        public UserController(IMediator mediator)
         {
-            return new string[] { "value1", "value2" };
+            _mediator = mediator;
+        }
+
+
+        // GET: api/<UserController>
+        [HttpGet ("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                
+                var users = await _mediator.Send(new GetAllUsersQuery());
+                return Ok(users);
+            }
+            catch (UserException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch
+            {
+                return StatusCode(500, "Internal Error");
+            }
         }
 
         // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetUser")]
+        public async Task<IActionResult> Get(int id )
         {
-            return "value";
+            try
+            {
+                if (id <=0) return BadRequest("Error. Incorrect user data");
+                GetUserDto user = await _mediator.Send(new GetUserQuery { Id = id});
+                return Ok(user);
+            }
+            catch
+            {
+                return StatusCode(500, "Internal error");
+            }
         }
 
         // POST api/<UserController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost(Name ="AddUser")]
+        public async Task<IActionResult> Post([FromBody] AddUserCommand command)
         {
+            try
+            {
+                if (command == null) return BadRequest("Error. Enter correct data and try again.");
+                var id = await _mediator.Send(command);
+                return CreatedAtRoute("GetUser", new { id }, null);
+
+            }
+            catch (UserException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch
+            {
+                return StatusCode(500, "Internal error");
+            }
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Put(int id,[FromBody] UpdateUserCommand command)
         {
+            try
+            {
+                if(command == null) return BadRequest("Error. Incorrect user data");
+                command.UserId = id;
+                await _mediator.Send(command);                
+                return NoContent();
+            }
+            catch
+            {
+                return StatusCode(500, "Internal error");
+            }
         }
 
         // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPut("disable/{id}")]
+        public async Task<IActionResult> Disable(int id)
         {
+            try
+            {
+                if (id <= 0) return BadRequest("Error. Incorrect user id");
+                var command = new DisableUserCommand
+                {
+                    UserId = id,
+                    DisableBy= id
+                };
+                await _mediator.Send(command);
+                return Ok();
+            }
+            catch
+            {
+                return StatusCode(500, "Internal error");
+            }
         }
     }
 }
