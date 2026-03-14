@@ -23,13 +23,6 @@ namespace BussinesLogic.Entities
             Content = content;
             IsInternal = isInternal;
             CreatedAt = DateTime.Now;
-            Validate();
-        }
-
-        private void Validate()
-        {
-            if (UserId <= 0) throw new CommentException("Error. Incorrect user");
-            if (string.IsNullOrEmpty(Content)) throw new CommentException("Error. Comment must have content");
         }
 
 

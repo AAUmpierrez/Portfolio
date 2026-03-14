@@ -18,12 +18,7 @@ namespace BussinesLogic.Entities
         public Permission(int id, string name) 
         {
             Name = name;
-            Validate();
-        }
 
-        public void Validate()
-        {
-            if (string.IsNullOrEmpty(Name)) throw new PermissionException("Error. Permission name can not be empty");
         }
 
     }

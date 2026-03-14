@@ -25,13 +25,6 @@ namespace BussinesLogic.Entities
             Content = content;
             IsInternal = isInternal;
             CreatedAt = DateTime.Now;
-            Validate();
-        }
-
-        private void Validate()
-        {
-            if (TicketId <= 0) throw new CommentException("Error. Ticket can not be Empty");
-            if (string.IsNullOrEmpty(Content)) throw new CommentException("Error. Comment must have content");
         }
 
     }

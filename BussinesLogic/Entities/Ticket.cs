@@ -37,7 +37,7 @@ namespace BussinesLogic.Entities
             Priority = priority;
             CreatorUserId = creatorUserId;
             CreationDate = DateTime.Now;
-            Validate();
+
         }
 
         private void AddHistory(int userId, string action,string oldValue,string newValue)
@@ -47,8 +47,8 @@ namespace BussinesLogic.Entities
         }
         public void Close(int userId)
         {
-            if (State == TicketState.Close) throw new TicketException("Error. A closed ticket cannot be modified");
-            if (userId <= 0) throw new UserException("Error. User not valid");
+            if (State == TicketState.Close) throw new Exception("A closed ticket cannot be modified");
+            if (userId <= 0) throw new Exception("User not valid");
             string oldValue = State.ToString();
             State = TicketState.Close;
             ClosingDate = DateTime.Now;
@@ -58,7 +58,7 @@ namespace BussinesLogic.Entities
         public void Assigned(int assignedByUserId)
         {
             if (State == TicketState.Close)
-                throw new TicketException("Closed ticket cannot be modified.");
+                throw new Exception("Closed ticket cannot be modified.");
             AssignedUserId = assignedByUserId;
             AssignedDate = DateTime.UtcNow;
             string oldValue = State.ToString();
@@ -68,10 +68,10 @@ namespace BussinesLogic.Entities
         public void InProgress()
         {
             if (State == TicketState.Close)
-                throw new TicketException("Closed ticket cannot be modified.");
+                throw new Exception("Closed ticket cannot be modified.");
 
             if (State != TicketState.Assigned)
-                throw new TicketException("Only assigned tickets can start progress.");
+                throw new Exception("Only assigned tickets can start progress.");
             string oldValue = State.ToString();
             State = TicketState.InProcess;
         }
@@ -79,10 +79,10 @@ namespace BussinesLogic.Entities
         public void Waiting()
         {
             if (State == TicketState.Close)
-                throw new TicketException("Closed ticket cannot be modified.");
+                throw new Exception("Closed ticket cannot be modified.");
 
             if (State != TicketState.InProcess)
-                throw new TicketException("Only tickets in process can be set to waiting.");
+                throw new Exception("Only tickets in process can be set to waiting.");
 
             State = TicketState.Waiting;
         }
@@ -90,10 +90,10 @@ namespace BussinesLogic.Entities
         public void Resolve(int resolvedByUserId)
         {
             if (State == TicketState.Close)
-                throw new TicketException("Closed ticket cannot be modified.");
+                throw new Exception("Closed ticket cannot be modified.");
 
             if (State != TicketState.InProcess && State != TicketState.Waiting)
-                throw new TicketException("Only active tickets can be resolved.");
+                throw new Exception("Only active tickets can be resolved.");
             ResolvedById = resolvedByUserId;
             string oldValue = State.ToString();
             State = TicketState.Resolved;
@@ -102,7 +102,7 @@ namespace BussinesLogic.Entities
         public void Reopen(int userId)
         {
             if (State != TicketState.Close)
-                throw new TicketException("Only closed tickets can be reopened.");
+                throw new Exception("Only closed tickets can be reopened.");
             string oldValue = State.ToString();
             State = TicketState.Open;
             ClosedBy = null;
@@ -111,7 +111,7 @@ namespace BussinesLogic.Entities
         }
         public void AddComment(string content,bool isInternal)
         {
-            if (State == TicketState.Close) throw new TicketException("Error. Ticket is closed");
+            if (State == TicketState.Close) throw new Exception("Ticket already closed");
             TicketComment comment = new TicketComment(Id,content,isInternal);
             Comments.Add(comment);
         }
@@ -121,17 +121,12 @@ namespace BussinesLogic.Entities
             if (Priority == newPriority)
                 return;
             if (State == TicketState.Close)
-                throw new InvalidOperationException("Error. Can not change the priority of a closed ticket");
+                throw new Exception("Ticket already closed");
 
             string oldValue = Priority.ToString();
             Priority = newPriority;
             AddHistory(userId, "Close", oldValue, Priority.ToString());
         }
 
-        private void Validate()
-        {
-            if (CreatorUserId <= 0) throw new TicketException("Error. Creator user not valid");
-            if (AssignedUserId <= 0) throw new TicketException("Error. Assigned user not valid");
-        }
     }
 }

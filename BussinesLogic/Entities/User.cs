@@ -43,11 +43,12 @@ namespace BussinesLogic.Entities
             RoleId = role;
             Status = UserStatus.Active;
             CreatedAt = DateTime.Now;
-            Validate();
+
         }
 
         public void AddPermission(Permission permission)
         {
+            if (permission == null) throw new Exception("Permission not valid");
             if (_userPermissions.Any(up => up.PermissionId == permission.Id))
                 return;
 
@@ -56,6 +57,7 @@ namespace BussinesLogic.Entities
 
         public void RemovePermission(int permissionId)
         {
+            if (permissionId <= 0) throw new Exception("Persmision not valid");
             var permission = _userPermissions
                 .FirstOrDefault(up => up.PermissionId == permissionId);
 
@@ -65,6 +67,7 @@ namespace BussinesLogic.Entities
 
         public bool HasPermission(string permissionName)
         {
+            if (string.IsNullOrEmpty(permissionName)) throw new Exception("Permission not valid");
             if (Role.HasPermission(permissionName))
                 return true;
 
@@ -75,7 +78,7 @@ namespace BussinesLogic.Entities
         public void AddComment(string message,bool isInternal)
         {
             if (Status == UserStatus.Inactive)
-                throw new InvalidOperationException("Error. User inactive");
+                throw new InvalidOperationException($"User{FirstName + " " + LastName} is inactive");
 
             var comment = new UserComment(Id,message,isInternal);
             Comments.Add(comment);
@@ -83,8 +86,8 @@ namespace BussinesLogic.Entities
 
         public void Disable(int disableBy)
         {
-            if (Status == UserStatus.Inactive) throw new UserException("Error. User is inactive");
-            if (disableBy <= 0) throw new UserException("Error. User not valid");
+            if (Status == UserStatus.Inactive) throw new Exception($"User{FirstName+" "+LastName} is inactive");
+            if (disableBy <= 0) throw new Exception("User not valid");
             Status = UserStatus.Inactive;
             DisableBy = disableBy;
             DisableAt = DateTime.Now;
@@ -99,15 +102,9 @@ namespace BussinesLogic.Entities
         }
         public void ChangeRole(Role newRole)
         {
+            if (newRole == null) throw new Exception("Role not found");
             Role = newRole;
         }
 
-        private void Validate()
-        {
-            if (string.IsNullOrEmpty(FirstName)) throw new UserException("Error. First name can not be empty");
-            if (string.IsNullOrEmpty(LastName)) throw new UserException("Error. Last name can not be empty");
-            if (string.IsNullOrEmpty(Email)) throw new UserException("Error. Emial name can not be empty");
-            if (string.IsNullOrEmpty(Password)) throw new UserException("Error. Password name can not be empty");
-        }
     }
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SharedLogic")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fb86eb4915d202ee42c86526616896816c903c08")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+79df223b5e060525eba95840fc22b7078583cbe4")]
 [assembly: System.Reflection.AssemblyProductAttribute("SharedLogic")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SharedLogic")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

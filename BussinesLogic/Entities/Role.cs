@@ -27,7 +27,7 @@ namespace BussinesLogic.Entities
         public void AddPermission(Permission permission)
         {
             if (permission == null)
-                throw new PermissionException(nameof(permission));
+                throw new Exception($"Permision {permission.Name} not found");
 
             if (_rolPermissions.Any(rp => rp.PermissionId == permission.Id))
                 return;
@@ -38,6 +38,7 @@ namespace BussinesLogic.Entities
 
         public bool HasPermission(string permissionName)
         {
+            if (string.IsNullOrEmpty(permissionName)) throw new Exception("Permission name not valid");
             return _rolPermissions.Any(rp =>rp.IsEnabled && rp.Permission.Name == permissionName);
         }
     }

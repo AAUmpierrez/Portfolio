@@ -30,7 +30,7 @@ namespace BussinesLogic.Entities
 
         public void Disable()
         {
-            if (IsBase == true) throw new PermissionException("Error. Can not disable a base permission");
+            if (IsBase == true) throw new Exception("Can not disable a base permission");
             IsEnabled = false;
         }
     }

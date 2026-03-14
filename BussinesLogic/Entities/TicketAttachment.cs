@@ -39,16 +39,8 @@ namespace BussinesLogic.Entities
             ContentType = contentType;
             UploadedAt = DateTime.UtcNow;
             UploadedByUserId = user;
-            Validate();
         }
 
-
-        private void Validate()
-        {
-            if (string.IsNullOrEmpty(FileName)) throw new TicketException("Error. File name can not be empty");
-            if (string.IsNullOrEmpty(FilePath)) throw new TicketException("Error. File path can not be empty");
-            if (string.IsNullOrEmpty(ContentType)) throw new TicketException("Error. Content type can not be empty");
-        }
 
     }
 }
