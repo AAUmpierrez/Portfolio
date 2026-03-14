@@ -27,13 +27,8 @@ namespace BussinesLogic.Entities
             UserId = userId;
             Action = action;
             TableName = tableName;
-            Validate();
         }
 
 
-        private void Validate()
-        {
-            if (UserId <= 0) throw new AuditException("Error. Enter the user creator");
-        }
     }
 }

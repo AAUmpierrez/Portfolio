@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AplicationLogic\AplicationLogic.csproj" />
     <ProjectReference Include="..\BussinesLogic\BussinesLogic.csproj" />
     <ProjectReference Include="..\SharedLogic\SharedLogic.csproj" />
   </ItemGroup>

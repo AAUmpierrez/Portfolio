@@ -60,7 +60,7 @@ namespace DataAccessLogic.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Audits");
+                    b.ToTable("Audits", (string)null);
                 });
 
             modelBuilder.Entity("BussinesLogic.Entities.Permission", b =>
@@ -77,7 +77,7 @@ namespace DataAccessLogic.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
                 });
 
             modelBuilder.Entity("BussinesLogic.Entities.Role", b =>
@@ -94,7 +94,7 @@ namespace DataAccessLogic.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("BussinesLogic.Entities.RolePermission", b =>
@@ -115,7 +115,7 @@ namespace DataAccessLogic.Migrations
 
                     b.HasIndex("PermissionId");
 
-                    b.ToTable("RolePermission");
+                    b.ToTable("RolePermission", (string)null);
                 });
 
             modelBuilder.Entity("BussinesLogic.Entities.Ticket", b =>
@@ -184,7 +184,7 @@ namespace DataAccessLogic.Migrations
 
                     b.HasIndex("ResolvedById");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("BussinesLogic.Entities.TicketAttachment", b =>
@@ -223,7 +223,7 @@ namespace DataAccessLogic.Migrations
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("TicketAttachments");
+                    b.ToTable("TicketAttachments", (string)null);
                 });
 
             modelBuilder.Entity("BussinesLogic.Entities.TicketComment", b =>
@@ -252,7 +252,7 @@ namespace DataAccessLogic.Migrations
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("TicketComments");
+                    b.ToTable("TicketComments", (string)null);
                 });
 
             modelBuilder.Entity("BussinesLogic.Entities.TicketHistory", b =>
@@ -290,7 +290,7 @@ namespace DataAccessLogic.Migrations
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("TicketHistories");
+                    b.ToTable("TicketHistories", (string)null);
                 });
 
             modelBuilder.Entity("BussinesLogic.Entities.User", b =>
@@ -336,7 +336,7 @@ namespace DataAccessLogic.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("BussinesLogic.Entities.UserComment", b =>
@@ -365,7 +365,7 @@ namespace DataAccessLogic.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserComments");
+                    b.ToTable("UserComments", (string)null);
                 });
 
             modelBuilder.Entity("BussinesLogic.Entities.UserPermission", b =>
@@ -380,7 +380,7 @@ namespace DataAccessLogic.Migrations
 
                     b.HasIndex("PermissionId");
 
-                    b.ToTable("UserPermission");
+                    b.ToTable("UserPermission", (string)null);
                 });
 
             modelBuilder.Entity("BussinesLogic.Entities.RolePermission", b =>

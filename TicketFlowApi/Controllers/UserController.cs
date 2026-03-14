@@ -1,7 +1,9 @@
 ﻿using AplicationLogic.DTOs.User;
 using AplicationLogic.UseCasesInterface.User;
+using AplicationLogic.Users.Login;
 using BussinesLogic.Exceptions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedLogic.DTOs.User;
 using SharedLogic.Exceptions;
@@ -121,5 +123,25 @@ namespace TicketFlowApi.Controllers
                 return StatusCode(500, "Internal error");
             }
         }
+
+
+        [HttpPost("login")]
+        public async Task <IActionResult> Login([FromBody]LoginCommand log)
+        {
+            if (log == null) return BadRequest("Error. Incorrect data");
+           
+            var result = await _mediator.Send(log);
+
+            return Ok(result);
+
+        }
+        [Authorize]
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            return Ok("Token válido");
+        }
+
+
     }
 }

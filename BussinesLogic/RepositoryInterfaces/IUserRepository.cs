@@ -11,5 +11,6 @@ namespace BussinesLogic.RepositoryInterfaces
     public interface IUserRepository:IRepository<User>
     {
         Task<IEnumerable<User>> GetAllByStatus(UserStatus uStatus);
+        Task<User> GetByEmailAsync(string email);
     }
 }
