@@ -2,6 +2,7 @@
 using AplicationLogic.Interfaces.Security;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
+using SharedLogic.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,10 +28,10 @@ namespace AplicationLogic.Users.Login
             var user = await _userRepository.GetByEmailAsync(request.Email);
 
             if (user == null)
-                throw new Exception("Error. Incorrect password or email");
+                throw new BadRequestException("Incorrect password or email");
 
             if (user.Password != request.Password)
-                throw new Exception("Error. Incorrect password or email");
+                throw new BussinesException("Incorrect password");
 
             var token = _jwtService.GenerateToken(new LoginResponseDto
             {

@@ -1,5 +1,4 @@
-﻿using BussinesLogic.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -43,7 +42,7 @@ namespace BussinesLogic.ValueObjects.Users
         }
         private void Validate()
         {
-            if (!ValidateCharacters()) throw new UserException("Error. Name must contenin Upper and Lower letters");
+            if (!ValidateCharacters()) throw new Exception("Error. Name must contenin Upper and Lower letters");
         }
     }
 }

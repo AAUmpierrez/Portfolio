@@ -1,5 +1,6 @@
 ﻿using AplicationLogic.DTOs.User;
 using AplicationLogic.Interfaces;
+using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
 using SharedLogic.DTOs.User;
@@ -25,9 +26,10 @@ namespace AplicationLogic.UseCasesInterface.User
 
         public async Task<GetUserDto> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            if (request.Id <= 0) throw new BadRequestException("Error. User not exist");
+            if (request.Id <= 0) throw new BadRequestException("User not valid");
             var user = await _userRepository.GetAsync(request.Id);
-            if (user == null) throw new NotFoundException("Error. User not found");
+            if (user.Status == UserStatus.Inactive) throw new BussinesException($"User {user.FirstName + " " + user.LastName} is inactive");
+            if (user == null) throw new NotFoundException($"User {request.Id} not found");
             return UserMapper.UserToUserDto(user);
         }
 

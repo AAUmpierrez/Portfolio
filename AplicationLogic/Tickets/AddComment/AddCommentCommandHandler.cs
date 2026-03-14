@@ -22,7 +22,7 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
 
         public async Task Execute(AddCommentCommand command)
         {
-            if (command == null) throw new BadRequestException("Error. Comment data not valid");
+            if (command == null) throw new BadRequestException("Comment data not valid");
             var ticket = await _repository.GetAsync(command.TicketId);
             if (ticket == null) throw new BadRequestException("Error. Ticket not valid");
             ticket.AddComment(command.Content, command.IsInternal);

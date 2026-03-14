@@ -17,7 +17,7 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
 
         public async Task Execute(DeleteTicketCommand tCommand)
         {
-            if (tCommand == null) throw new BadRequestException("Error. Incorrect data to delet ticket");
+            if (tCommand == null) throw new BadRequestException("Command not valid");
             var ticket = await _repository.GetAsync(tCommand.TicketId);
             if (ticket == null) throw new BadRequestException("Error. Incorrect ticket value");
             ticket.SoftDelete(tCommand.UserId);

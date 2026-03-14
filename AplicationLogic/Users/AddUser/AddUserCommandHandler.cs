@@ -24,7 +24,7 @@ namespace AplicationLogic.UseCasesInterface.User
 
         public async Task<int> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
-            if (request == null) throw new BadRequestException("Error. The entered data is incorrect. ");
+            if (request == null) throw new BadRequestException("Command not valid");
             var user = UserMapper.AddUserComandToUser(request);
             await _repository.AddAsync(user);
             return user.Id;

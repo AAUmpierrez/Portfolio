@@ -1,6 +1,4 @@
 ﻿using BussinesLogic.Enums;
-using BussinesLogic.Exceptions;
-
 namespace BussinesLogic.Entities
 {
     public class Ticket:TicketSoftDelete

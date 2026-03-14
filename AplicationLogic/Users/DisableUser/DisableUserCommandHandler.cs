@@ -23,9 +23,9 @@ namespace AplicationLogic.UseCasesInterface.User
 
         public async Task Handle(DisableUserCommand request, CancellationToken cancellationToken)
         {
-            if (request == null) throw new BadRequestException("Error. Invalid data for disable user");
+            if (request == null) throw new BadRequestException("Command not valid");
             var user = await _repository.GetAsync(request.UserId);
-            if (user == null) throw new BadRequestException("Error. User to disable not valid");
+            if (user == null) throw new NotFoundException($"User {request.UserId} not found");
             user.Disable(request.DisableBy);
             await _repository.UpdateAsync(user);
         }

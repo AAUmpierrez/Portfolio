@@ -20,9 +20,9 @@ namespace AplicationLogic.UseCasesInterface.User
         }
         public async Task Execute(AddCommentCommand command)
         {
-            if (command == null) throw new BadRequestException("Error. Comment data not valid");
+            if (command == null) throw new BadRequestException("Command not valid");
             var user = await _repository.GetAsync(command.UserId);
-            if (user == null) throw new BadRequestException("Error. User not valid");
+            if (user == null) throw new NotFoundException($"User {command.UserId} not found");
             user.AddComment(command.Content, command.IsInternal);
             await _repository.UpdateAsync(user);
         }

@@ -2,6 +2,7 @@
 using AplicationLogic.Tickets.Ticketinterf;
 using BussinesLogic.RepositoryInterfaces;
 using SharedLogic.DTOs.Ticket;
+using SharedLogic.Exceptions;
 using SharedLogic.Mappers;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,9 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
 
         public async Task<IEnumerable<TicketListDto>> Execute(GetAllTicketQuery query)
         {
+            if (query == null) throw new BadRequestException("Query is not valid");
             var tickets = await _repository.GetAllAsync();
+
             return TicketMapper.TicketsToTicketListDto(tickets.ToList());
         }
 

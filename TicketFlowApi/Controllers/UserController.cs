@@ -1,7 +1,6 @@
 ﻿using AplicationLogic.DTOs.User;
 using AplicationLogic.UseCasesInterface.User;
 using AplicationLogic.Users.Login;
-using BussinesLogic.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +34,7 @@ namespace TicketFlowApi.Controllers
                 var users = await _mediator.Send(new GetAllUsersQuery());
                 return Ok(users);
             }
-            catch (UserException ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -72,11 +71,7 @@ namespace TicketFlowApi.Controllers
                 return CreatedAtRoute("GetUser", new { id }, null);
 
             }
-            catch (UserException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (BadRequestException ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

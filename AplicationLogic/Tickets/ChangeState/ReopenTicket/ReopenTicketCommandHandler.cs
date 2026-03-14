@@ -21,9 +21,9 @@ namespace AplicationLogic.Tickets.ChangeState.ReopenTicket
 
         public async Task Execute(ReopenTicketCommand command)
         {
-            if (command == null) throw new BadRequestException("Error. Incorrect data");
+            if (command == null) throw new BadRequestException("Ticket not valid");
             var ticket = await _repository.GetAsync(command.TicketId);
-            if (ticket == null) throw new NotFoundException("Error. Ticket not found");
+            if (ticket == null) throw new NotFoundException($"Ticket {command.TicketId} not found");
             ticket.Reopen(command.UserId);
             await _repository.UpdateAsync(ticket);
         }

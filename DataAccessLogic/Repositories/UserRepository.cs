@@ -1,6 +1,5 @@
 ﻿using BussinesLogic.Entities;
 using BussinesLogic.Enums;
-using BussinesLogic.Exceptions;
 using BussinesLogic.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using SharedLogic.Exceptions;
@@ -20,23 +19,18 @@ namespace DataAccessLogic.Repositories
         public UserRepository(Context context) 
         {
             _context = context;
-        } 
+        }
 
         public async Task AddAsync(User item)
         {
-            if(item != null)
-            {
-                if (await GetByEmailAsync(item.Email) != null) throw new BussinesException("Error. A user with that email address already exists");
-                await _context.Users.AddAsync(item);
-                await _context.SaveChangesAsync();
-                
-            }else throw new UserException("Error. User can not be added");
+            if (await GetByEmailAsync(item.Email) != null) throw new BussinesException("Error. A user with that email address already exists");
+            await _context.Users.AddAsync(item);
+            await _context.SaveChangesAsync();
         }
 
 
         public async Task <User> GetAsync(int id)
         {
-            if (id <= 0) throw new BadRequestException("Error. Incorrect user");
             User u = await _context.Users
                                   .Include(u=>u.CreatedTickets)
                                   .Include(u=>u.AssignedTickets)
@@ -54,19 +48,14 @@ namespace DataAccessLogic.Repositories
 
         public async Task UpdateAsync(User item)
         {
-            if (item != null)
-            {
-                _context.Users.Update(item);
-                await _context.SaveChangesAsync();
-            }
-            else throw new UserException("Error. User can not be updated");
+            _context.Users.Update(item);
+            await _context.SaveChangesAsync();
         }
 
         //Private method
 
         public async Task<User> GetByEmailAsync(string email)
         {
-            if (email == string.Empty) throw new UserException("Error. Please enter a user mail to serch");
             return await _context.Users.Include(u=>u.Role).SingleOrDefaultAsync(u => u.Email == email);            
         }
 

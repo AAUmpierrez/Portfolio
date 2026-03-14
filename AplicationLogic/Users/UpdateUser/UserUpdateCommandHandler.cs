@@ -23,11 +23,10 @@ namespace AplicationLogic.UseCasesInterface.User
 
         public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            if (request == null) throw new BadRequestException("Error. Incorrect user data");
+            if (request == null) throw new BadRequestException("Command not valid");
             var user = UserMapper.UpdateUserComandToUser(request);
             user.Id = request.UserId;
             await _userRepository.UpdateAsync(user);
-
         }
     }
 }

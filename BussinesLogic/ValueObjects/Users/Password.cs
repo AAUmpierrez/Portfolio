@@ -1,5 +1,4 @@
-﻿using BussinesLogic.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -55,7 +54,7 @@ namespace BussinesLogic.ValueObjects.Users
 
         private void Validate() 
         {
-            if (!ValidateCharacters()) throw new UserException("Error. Remember contains upper, lower cases, a digit and special char");
+            if (!ValidateCharacters()) throw new Exception("Error. Remember contains upper, lower cases, a digit and special char");
         }
 
 

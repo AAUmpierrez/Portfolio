@@ -24,7 +24,7 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
 
         public async Task Execute(AddTicketCommand tCommand)
         {
-            if (tCommand == null) throw new BadRequestException("Error. Incorrect ticket data enter");
+            if (tCommand == null) throw new BadRequestException("Ticket not valid");
             await _repository.AddAsync(TicketMapper.AddTicketCommandToTicket(tCommand));
         }
     }

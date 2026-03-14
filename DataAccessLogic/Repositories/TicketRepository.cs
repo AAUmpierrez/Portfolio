@@ -1,6 +1,5 @@
 ﻿using BussinesLogic.Entities;
 using BussinesLogic.Enums;
-using BussinesLogic.Exceptions;
 using BussinesLogic.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using SharedLogic.Exceptions;
@@ -22,11 +21,8 @@ namespace DataAccessLogic.Repositories
 
         public async Task AddAsync(Ticket item)
         {
-           if(item != null)
-            {
-                _context.Tickets.Add(item);
-                await _context.SaveChangesAsync();
-            }else throw new TicketException("Error. Ticket can not be added");
+            _context.Tickets.Add(item);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -47,12 +43,9 @@ namespace DataAccessLogic.Repositories
         }
 
         public async Task UpdateAsync(Ticket item)
-        {           
-            if(item != null)
-            {
-                _context.Tickets.Update(item);
-                await _context.SaveChangesAsync();
-            }else throw new TicketException("Error. Ticket can not be updated");
+        {
+            _context.Tickets.Update(item);
+            await _context.SaveChangesAsync();
         }
 
     }

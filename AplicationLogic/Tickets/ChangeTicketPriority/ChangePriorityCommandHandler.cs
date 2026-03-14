@@ -22,8 +22,9 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
         }
         public async Task Execute(ChangePriorityCommand command)
         {
+            if (command == null) throw new BadRequestException("Ticket not valid");
             var ticket = await _repository.GetAsync(command.TicketId);
-            if (ticket == null) throw new NotFoundException("Error. Ticket not found");
+            if (ticket == null) throw new NotFoundException($"Ticket {command.TicketId} not found");
             ticket.ChangePriority((TicketPriority)command.NewPriority, command.CurrentUser);
             await _repository.UpdateAsync(ticket);
         }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TicketFlowApi.Middleware;
 
 namespace TicketFlowApi
 {
@@ -90,7 +91,6 @@ namespace TicketFlowApi
                 });
              });
 
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -99,6 +99,7 @@ namespace TicketFlowApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

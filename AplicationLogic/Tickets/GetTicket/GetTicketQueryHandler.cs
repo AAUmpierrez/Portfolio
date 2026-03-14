@@ -23,9 +23,9 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
 
         public async Task<TicketDto> Execute(GetTicketQuery tQuery)
         {
-            if (tQuery.Id <= 0) throw new BadRequestException("Error. Incorrect ticket id");
+            if (tQuery.Id <= 0) throw new BadRequestException("Ticket not valid");
             var ticket =  await _repository.GetAsync(tQuery.Id);
-            if (ticket == null) throw new NotFoundException("Eror. Ticket not found");
+            if (ticket == null) throw new NotFoundException($"Ticket {tQuery.Id} not found");
             return TicketMapper.TicketToTicketDto(ticket);
         }
     }

@@ -1,5 +1,4 @@
-﻿using BussinesLogic.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -37,7 +36,7 @@ namespace BussinesLogic.ValueObjects.Users
 
         private void Validate()
         {
-            if (!ValidateCharacters()) throw new UserException("Error. Email format incorrect");
+            if (!ValidateCharacters()) throw new Exception("Error. Email format incorrect");
         }
     }
 }

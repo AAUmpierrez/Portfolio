@@ -2,6 +2,7 @@
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
 using SharedLogic.DTOs.User;
+using SharedLogic.Exceptions;
 using SharedLogic.Mappers;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace AplicationLogic.UseCasesInterface.User
 
         public async Task<IEnumerable<UserListDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
+            if (request == null) throw new BadRequestException("Query not valid");
             var users = await _userRepository.GetAllAsync();
             return UserMapper.UsersToUsersDto(users.ToList());
         }
