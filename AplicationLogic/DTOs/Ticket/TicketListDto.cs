@@ -13,10 +13,12 @@ namespace SharedLogic.DTOs.Ticket
         public string Title { get; set; }
         public string Description { get; set; }
         public string Priority { get; set; }
+        public string State { get; set; }
         public string CreatorUser { get; set; }
-        public string AssignedUser { get; set; }
+        public bool IsSlaBreached { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime? ClosingDate { get; set; }
+        public DateTime SlaDueDate { get; set; }
+        public TimeSpan TimeRemainig {get; set; }
     }
         
 }

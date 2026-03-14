@@ -8,9 +8,9 @@ namespace BussinesLogic.Enums
 {
     public enum TicketPriority
     {
-        Baja = 1,
-        Media = 2,
-        Alta = 3,
-        Critica = 4
+        Low = 1,
+        Medium= 2,
+        High = 3,
+        Critical = 4
     }
 }

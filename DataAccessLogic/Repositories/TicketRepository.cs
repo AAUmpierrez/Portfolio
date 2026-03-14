@@ -34,6 +34,11 @@ namespace DataAccessLogic.Repositories
             return await _context.Tickets.IgnoreQueryFilters().ToListAsync();
         }
 
+        public IQueryable<Ticket> Query()
+        {
+            return _context.Tickets.AsQueryable();
+        }
+
         public async Task<Ticket> GetAsync(int id)
         {
             return await _context.Tickets.Include(t => t.Comments)

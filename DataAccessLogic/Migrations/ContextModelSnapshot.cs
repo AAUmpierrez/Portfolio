@@ -157,8 +157,14 @@ namespace DataAccessLogic.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsSlaBreached")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Priority")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("ResolvedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("ResolvedById")
                         .HasColumnType("int");
@@ -168,6 +174,9 @@ namespace DataAccessLogic.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
+
+                    b.Property<DateTime>("SlaDueDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("State")
                         .HasColumnType("int");

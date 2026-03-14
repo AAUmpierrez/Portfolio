@@ -1,4 +1,5 @@
-﻿using SharedLogic.DTOs.Ticket;
+﻿using BussinesLogic.Enums;
+using SharedLogic.DTOs.Ticket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,12 @@ namespace AplicationLogic.Tickets.Ticketinterf
 {
     public class GetAllTicketQuery
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string Priority { get; set; }
-        public string CreatorUser { get; set; }
-        public string AssignedUser { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime? ClosingDate { get; set; }
+        public int Priority { get; set; }
+
+        public int Status { get; set; }
+
+        public bool? IsSlaBreached { get; set; }
+
+        public bool OrderBySlaDueDate { get; set; }
     }
 }
