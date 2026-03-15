@@ -77,14 +77,14 @@ namespace BussinesLogic.Entities
             State = TicketState.InProcess;
         }
 
-        public void Waiting()
+        public void Waiting(string comment)
         {
             if (State == TicketState.Close)
                 throw new Exception("Closed ticket cannot be modified.");
 
             if (State != TicketState.InProcess)
                 throw new Exception("Only tickets in process can be set to waiting.");
-
+            Comments.Add(new TicketComment(Id,comment,true));
             State = TicketState.Waiting;
         }
 

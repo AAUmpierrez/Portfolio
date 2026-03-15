@@ -1,9 +1,6 @@
 ﻿using AplicationLogic.DTOs.User;
 using AplicationLogic.Tickets.ChangeState.AssignTicket;
-using AplicationLogic.Tickets.ChangeState.CloseTicket;
 using AplicationLogic.Tickets.ChangeState.InProcessTicket;
-using AplicationLogic.Tickets.ChangeState.ReopenTicket;
-using AplicationLogic.Tickets.ChangeState.ResolveTicket;
 using AplicationLogic.Tickets.ChangeState.WaitingTicket;
 using AplicationLogic.Tickets.Ticketinterf;
 using MediatR;
@@ -123,39 +120,5 @@ namespace TicketFlowApi.Controllers
             await _mediator.Send(command);
             return Ok();
         }
-        [Authorize(Roles = "Admin,Support")]
-        [HttpPost("resolveTicket/{id}")]
-        public async Task<IActionResult> Resolve([FromBody] ResolveTicketCommand command, int id)
-        {
-            if (command == null) return BadRequest("Command not valid");
-            if (id <= 0) return BadRequest("Ticket not valid");
-            command.TicketId = id;
-            command.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            await _mediator.Send(command);
-            return Ok();
-        }
-        [Authorize(Roles = "Admin,Support")]
-        [HttpPost("reopenTicket/{id}")]
-        public async Task<IActionResult> Reopen([FromBody] ReopenTicketCommand command, int id)
-        {
-            if (command == null) return BadRequest("Command not valid");
-            if (id <= 0) return BadRequest("Ticket not valid");
-            command.TicketId = id;
-            command.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            await _mediator.Send(command);
-            return Ok();
-        }
-        [Authorize(Roles = "Admin,Support")]
-        [HttpPost("closeTicket/{id}")]
-        public async Task<IActionResult> Close([FromBody] CloseTicketCommand command, int id)
-        {
-            if (command == null) return BadRequest("Command not valid");
-            if (id <= 0) return BadRequest("Ticket not valid");
-            command.TicketId = id;
-            command.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            await _mediator.Send(command);
-            return Ok();
-        }
-
     }
 }
