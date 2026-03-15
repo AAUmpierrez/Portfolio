@@ -33,17 +33,16 @@ namespace AplicationLogic.Users.Login
             if (user.Password != request.Password)
                 throw new BussinesException("Incorrect password");
 
-            var token = _jwtService.GenerateToken(new LoginResponseDto
+            LoginResponseDto logDto = new LoginResponseDto
             {
                 Id = user.Id,
                 Email = user.Email,
                 Role = user.Role.Name
-            });
-
-            return new LoginResponseDto
-            {
-                Token = token
             };
+            var token = _jwtService.GenerateToken(logDto);
+            logDto.Token = token;
+
+            return logDto;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace SharedLogic.Mappers
                 Description = t.Description,
                 Priority = t.Priority.ToString(),
                 State = t.State.ToString(),
-                CreatorUser = (t.CreatorUser.FirstName + t.CreatorUser.LastName),
+                CreatorUserId = t.CreatorUserId,
                 CreatedDate = t.CreationDate,
                 SlaDueDate = t.SlaDueDate,
                 IsSlaBreached = t.IsSlaBreached,
@@ -61,5 +61,7 @@ namespace SharedLogic.Mappers
 
             };
         }
+
+      
     }
 }

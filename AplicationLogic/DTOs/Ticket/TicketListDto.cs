@@ -14,7 +14,7 @@ namespace SharedLogic.DTOs.Ticket
         public string Description { get; set; }
         public string Priority { get; set; }
         public string State { get; set; }
-        public string CreatorUser { get; set; }
+        public int CreatorUserId { get; set; }
         public bool IsSlaBreached { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime SlaDueDate { get; set; }

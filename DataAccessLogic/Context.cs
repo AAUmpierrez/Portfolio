@@ -1,5 +1,6 @@
 ﻿using BussinesLogic.Entities;
 using BussinesLogic.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
@@ -16,8 +17,11 @@ namespace DataAccessLogic
         public DbSet<Permission> Permissions {  get; set; }
         public DbSet<TicketHistory> TicketHistories { get; set; }
         public DbSet<TicketAttachment> TicketAttachments { get; set; }
-        public Context(DbContextOptions<Context> options) : base(options)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public Context(DbContextOptions<Context> options,IHttpContextAccessor httpContextAccessor) : base(options)
         {
+            _httpContextAccessor = httpContextAccessor;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -170,11 +174,14 @@ namespace DataAccessLogic
             {
                 if (entry.Entity is Audit)
                     continue;
+                var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst("id")?.Value;
+                var userId = userIdClaim != null ? int.Parse(userIdClaim) : 0; // 0 si no hay JWT
+
 
                 var audit = new Audit
                 (
                     DateTime.UtcNow,
-                    1, // 🔥 después lo conectamos al JWT
+                    userId,
                     entry.State.ToString(),
                     entry.Metadata.GetTableName()                   
                 );
@@ -209,6 +216,10 @@ namespace DataAccessLogic
                             oldValues[propertyName] = property.OriginalValue;
                             newValues[propertyName] = property.CurrentValue;
                         }
+                    }
+                    if (entry.Entity is TicketSoftDelete softDeleteEntity && softDeleteEntity.IsDeleted)
+                    {
+                        audit.Action = "SoftDeleted";
                     }
                 }
 

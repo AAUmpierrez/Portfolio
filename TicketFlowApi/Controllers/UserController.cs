@@ -25,116 +25,86 @@ namespace TicketFlowApi.Controllers
 
 
         // GET: api/<UserController>
-        [HttpGet ("GetAll")]
+        [Authorize (Roles ="Admin,Support")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                
-                var users = await _mediator.Send(new GetAllUsersQuery());
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal Error");
-            }
+            var users = await _mediator.Send(new GetAllUsersQuery());
+            return Ok(users);
         }
 
         // GET api/<UserController>/5
+        [Authorize(Roles ="Admin,Support")]
         [HttpGet("{id}", Name = "GetUser")]
-        public async Task<IActionResult> Get(int id )
+        public async Task<IActionResult> Get(int id)
         {
-            try
             {
-                if (id <=0) return BadRequest("Error. Incorrect user data");
-                GetUserDto user = await _mediator.Send(new GetUserQuery { Id = id});
+                if (id <= 0) return BadRequest("User not valid");
+                GetUserDto user = await _mediator.Send(new GetUserQuery { Id = id });
                 return Ok(user);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal error");
             }
         }
 
         // POST api/<UserController>
+        [Authorize(Roles ="Admin,Support")]
         [HttpPost(Name ="AddUser")]
         public async Task<IActionResult> Post([FromBody] AddUserCommand command)
         {
-            try
-            {
-                if (command == null) return BadRequest("Error. Enter correct data and try again.");
+                if (command == null) return BadRequest("Command not valid");
                 var id = await _mediator.Send(command);
                 return CreatedAtRoute("GetUser", new { id }, null);
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal error");
-            }
         }
 
         // PUT api/<UserController>/5
+        [Authorize(Roles = "Admin,Support")]
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> Put(int id,[FromBody] UpdateUserCommand command)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdateUserCommand command)
         {
-            try
-            {
-                if(command == null) return BadRequest("Error. Incorrect user data");
-                command.UserId = id;
-                await _mediator.Send(command);                
-                return NoContent();
-            }
-            catch
-            {
-                return StatusCode(500, "Internal error");
-            }
+            if (command == null) return BadRequest("Command not valid");
+            command.UserId = id;
+            await _mediator.Send(command);
+            return NoContent();
         }
 
         // DELETE api/<UserController>/5
+        [Authorize(Roles = "Admin,Support")]
         [HttpPut("disable/{id}")]
         public async Task<IActionResult> Disable(int id)
         {
-            try
+            if (id <= 0) return BadRequest("User not valid");
+            var command = new DisableUserCommand
             {
-                if (id <= 0) return BadRequest("Error. Incorrect user id");
-                var command = new DisableUserCommand
-                {
-                    UserId = id,
-                    DisableBy= id
-                };
-                await _mediator.Send(command);
-                return Ok();
-            }
-            catch
-            {
-                return StatusCode(500, "Internal error");
-            }
+                UserId = id,
+                DisableBy = id
+            };
+            await _mediator.Send(command);
+            return Ok();
         }
 
 
         [HttpPost("login")]
         public async Task <IActionResult> Login([FromBody]LoginCommand log)
         {
-            if (log == null) return BadRequest("Error. Incorrect data");
+            if (log == null) return BadRequest("Enter email and password");
            
             var result = await _mediator.Send(log);
 
             return Ok(result);
-
         }
-        [Authorize]
+
+        [Authorize(Roles ="Admin")]
         [HttpGet("test")]
         public IActionResult Test()
         {
             return Ok("Token válido");
+        }
+
+        [HttpPut("addComment")]
+        public async Task<IActionResult> AddComment(AddCommentCommand command)
+        {
+            if (command == null) return BadRequest("Command not valid");
+            await _mediator.Send(command);
+            return Ok();
         }
 
 

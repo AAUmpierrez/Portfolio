@@ -1,5 +1,6 @@
 ﻿using AplicationLogic.Interfaces;
 using BussinesLogic.RepositoryInterfaces;
+using MediatR;
 using SharedLogic.DTOs.User;
 using SharedLogic.Exceptions;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.UseCasesInterface.User
 {
-    public class AddCommentCommandHandler : ICommandHandler<AddCommentCommand>
+    public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand>
     {
         private IUserRepository _repository {  get; set; }
 
@@ -18,15 +19,13 @@ namespace AplicationLogic.UseCasesInterface.User
         {
             _repository = repository;
         }
-        public async Task Execute(AddCommentCommand command)
+        public async Task Handle(AddCommentCommand request, CancellationToken cancellationToken)
         {
-            if (command == null) throw new BadRequestException("Command not valid");
-            var user = await _repository.GetAsync(command.UserId);
-            if (user == null) throw new NotFoundException($"User {command.UserId} not found");
-            user.AddComment(command.Content, command.IsInternal);
+            if (request == null) throw new BadRequestException("Command not valid");
+            var user = await _repository.GetAsync(request.UserId);
+            if (user == null) throw new NotFoundException($"User {request.UserId} not found");
+            user.AddComment(request.Content, request.IsInternal);
             await _repository.UpdateAsync(user);
         }
-
-
     }
 }

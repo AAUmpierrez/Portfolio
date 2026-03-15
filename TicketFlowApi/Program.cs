@@ -26,6 +26,7 @@ namespace TicketFlowApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddMediatR(cfg =>
@@ -33,7 +34,6 @@ namespace TicketFlowApi
 
             string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
             builder.Services.AddDbContext<Context>(opt => opt.UseSqlServer(connectionString));
-
 
             builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
             builder.Services.AddScoped<IJwtService, JwtService>();

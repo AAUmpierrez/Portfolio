@@ -28,7 +28,7 @@ namespace SharedLogic.Mappers
                 LastName = user.LastName,
                 Email = user.Email,
                 Rol = user.Role.Name,
-                Status = user.Status.ToString(),
+                Status = user.Status.ToString()
             };
         }
 
@@ -48,6 +48,17 @@ namespace SharedLogic.Mappers
                 LastName = u.LastName,
                 Email = u.Email,
                 Rol = u.Role.Name
+            });
+        }
+
+        public static IEnumerable<UserCommentDto> UserCommentsToUserCommentsDto(List<UserComment> userComments)
+        {
+            return userComments.Select(u => new UserCommentDto() 
+            { 
+                UserId = u.Id,
+                Content = u.Content,
+                IsInternal = u.IsInternal,           
+            
             });
         }
 

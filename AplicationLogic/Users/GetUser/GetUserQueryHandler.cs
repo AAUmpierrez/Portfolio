@@ -28,9 +28,13 @@ namespace AplicationLogic.UseCasesInterface.User
         {
             if (request.Id <= 0) throw new BadRequestException("User not valid");
             var user = await _userRepository.GetAsync(request.Id);
-            if (user.Status == UserStatus.Inactive) throw new BussinesException($"User {user.FirstName + " " + user.LastName} is inactive");
             if (user == null) throw new NotFoundException($"User {request.Id} not found");
-            return UserMapper.UserToUserDto(user);
+            if (user.Status == UserStatus.Inactive) throw new BussinesException($"User {user.FirstName + " " + user.LastName} is inactive");
+            GetUserDto userDto = UserMapper.UserToUserDto(user);
+            userDto.AssignedTickets = TicketMapper.TicketsToTicketListDto(user.AssignedTickets.ToList());
+            userDto.CreatedTickets = TicketMapper.TicketsToTicketListDto(user.CreatedTickets.ToList());
+            userDto.Comments = UserMapper.UserCommentsToUserCommentsDto(user.Comments.ToList());
+            return userDto;
         }
 
     }

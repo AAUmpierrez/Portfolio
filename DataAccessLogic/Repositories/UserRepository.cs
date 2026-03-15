@@ -36,13 +36,15 @@ namespace DataAccessLogic.Repositories
                                   .Include(u=>u.AssignedTickets)
                                   .Include (u=>u.Comments)
                                   .Include (u =>u.Role)
+                                  .IgnoreQueryFilters()
                                   .SingleOrDefaultAsync(u => u.Id==id);
             return u;
         }
         
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await _context.Users.Include(u=>u.Role)
+            return await _context.Users.Include(u => u.Role)
+                                       .IgnoreQueryFilters()
                                        .ToListAsync();
         }
 
