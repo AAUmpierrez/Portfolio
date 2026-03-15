@@ -1,4 +1,5 @@
-﻿using SharedLogic.DTOs.Ticket;
+﻿using MediatR;
+using SharedLogic.DTOs.Ticket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.Tickets.Ticketinterf
 {
-    public class AddTicketCommand
+    public class AddTicketCommand:IRequest<int>
     {
         public int Id { get; set; }
         public string Title { get; set; }

@@ -29,12 +29,16 @@ namespace TicketFlowApi
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+
+            //mediatR
             builder.Services.AddMediatR(cfg =>
                                         cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly));
-
+            //connectionString
             string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
             builder.Services.AddDbContext<Context>(opt => opt.UseSqlServer(connectionString));
-
+            
+            //JWT authentication
             builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
             builder.Services.AddScoped<IJwtService, JwtService>();
             var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
@@ -63,6 +67,7 @@ namespace TicketFlowApi
                 };
             });
 
+            //SwaggerToken
             builder.Services.AddSwaggerGen(c =>
             {
                 c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme

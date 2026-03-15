@@ -1,6 +1,8 @@
 ﻿using AplicationLogic.Interfaces;
 using AplicationLogic.Tickets.Ticketinterf;
+using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
+using MediatR;
 using SharedLogic.DTOs.Ticket;
 using SharedLogic.Exceptions;
 using SharedLogic.Mappers;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.UseCasesImplementation.Ticket
 {
-    public class UpdateTicketCommandHandler:ICommandHandler<UpdateTicketCommand>
+    public class UpdateTicketCommandHandler:IRequestHandler<UpdateTicketCommand>
     {
         private ITicketRepository _repository {  get; set; }
 
@@ -23,8 +25,16 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
 
         public async Task Execute(UpdateTicketCommand tCommand)
         {
-            if (tCommand == null) throw new BadRequestException("Command not valid");
-            await _repository.UpdateAsync(TicketMapper.UpdateTicketCommandToUpdateTicket(tCommand));
+        }
+
+        public async Task Handle(UpdateTicketCommand request, CancellationToken cancellationToken)
+        {
+            if (request == null) throw new BadRequestException("Command not valid");
+            if ((TicketState)request.State == TicketState.Close && request.AssignedUserId.HasValue)
+                throw new BussinesException("Closed Ticket can not be modify");
+
+
+            await _repository.UpdateAsync(TicketMapper.UpdateTicketCommandToUpdateTicket(request));
         }
     }
 }

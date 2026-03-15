@@ -44,7 +44,7 @@ namespace SharedLogic.Mappers
             Ticket ticket = new Ticket(tCommand.Title,
                                        tCommand.Description,
                                        (TicketPriority)tCommand.Priority,
-                                       tCommand.CreatorUser,
+                                       tCommand.CreatorUserId,
                                        tCommand.SlaDueDate);
             return ticket;                                  
         }

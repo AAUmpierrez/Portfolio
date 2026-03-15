@@ -2,6 +2,7 @@
 using AplicationLogic.Tickets.Ticketinterf;
 using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
+using MediatR;
 using SharedLogic.DTOs.Ticket;
 using SharedLogic.Exceptions;
 using SharedLogic.Mappers;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.UseCasesImplementation.Ticket
 {
-    public class GetAllTicketsQueryHandler:IQueryHandler<GetAllTicketQuery,IEnumerable<TicketListDto>>
+    public class GetAllTicketsQueryHandler:IRequestHandler<GetAllTicketQuery,IEnumerable<TicketListDto>>
     {
         private ITicketRepository _repository {  get; set; }
 
@@ -22,7 +23,7 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
             _repository = repository;
         }
 
-        public async Task<IEnumerable<TicketListDto>> Execute(GetAllTicketQuery request)
+        public async Task<IEnumerable<TicketListDto>> Handle(GetAllTicketQuery request, CancellationToken cancellationToken)
         {
             if (request == null) throw new BadRequestException("Query is not valid");
             var tickets = await _repository.GetAllAsync();
@@ -53,6 +54,5 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
 
             return TicketMapper.TicketsToTicketListDto(tickets.ToList());
         }
-
     }
 }

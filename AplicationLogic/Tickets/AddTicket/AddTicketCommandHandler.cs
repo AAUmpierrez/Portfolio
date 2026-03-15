@@ -3,6 +3,7 @@ using AplicationLogic.Services;
 using AplicationLogic.Tickets.Ticketinterf;
 using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
+using MediatR;
 using SharedLogic.DTOs.Ticket;
 using SharedLogic.Exceptions;
 using SharedLogic.Mappers;
@@ -15,7 +16,7 @@ using System.Windows.Input;
 
 namespace AplicationLogic.UseCasesImplementation.Ticket
 {
-    public class AddTicketCommandHandler : ICommandHandler<AddTicketCommand>
+    public class AddTicketCommandHandler : IRequestHandler<AddTicketCommand,int>
     {
         private ITicketRepository _repository {  get; set; }
         private SlaCalculatorService _slaCalculator { get; set; }
@@ -25,13 +26,15 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
             _repository = repository;
         }
 
-        public async Task Execute(AddTicketCommand tCommand)
+
+        public async Task<int> Handle(AddTicketCommand request, CancellationToken cancellationToken)
         {
-            if (tCommand == null) throw new BadRequestException("Error. Incorrect ticket data enter");
+            if (request == null) throw new BadRequestException("Command not valid");
             var createdAt = DateTime.Now;
-            var slaDueDate = _slaCalculator.CalculateDueDate((TicketPriority)tCommand.Priority, createdAt);
-            tCommand.SlaDueDate = slaDueDate;
-            await _repository.AddAsync(TicketMapper.AddTicketCommandToTicket(tCommand));
+            var slaDueDate = _slaCalculator.CalculateDueDate((TicketPriority)request.Priority, createdAt);
+            request.SlaDueDate = slaDueDate;
+            await _repository.AddAsync(TicketMapper.AddTicketCommandToTicket(request));
+            return request.Id;
         }
     }
 }

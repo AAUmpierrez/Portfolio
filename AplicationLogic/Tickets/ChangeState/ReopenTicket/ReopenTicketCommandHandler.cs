@@ -1,6 +1,7 @@
 ﻿using AplicationLogic.Interfaces;
 using AplicationLogic.Tickets.ChangeState.AssignTicket;
 using BussinesLogic.RepositoryInterfaces;
+using MediatR;
 using SharedLogic.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.Tickets.ChangeState.ReopenTicket
 {
-    public class ReopenTicketCommandHandler : ICommandHandler<ReopenTicketCommand>
+    public class ReopenTicketCommandHandler : IRequestHandler<ReopenTicketCommand>
     {
         private ITicketRepository _repository { get; set; }
 
@@ -21,10 +22,14 @@ namespace AplicationLogic.Tickets.ChangeState.ReopenTicket
 
         public async Task Execute(ReopenTicketCommand command)
         {
-            if (command == null) throw new BadRequestException("Ticket not valid");
-            var ticket = await _repository.GetAsync(command.TicketId);
-            if (ticket == null) throw new NotFoundException($"Ticket {command.TicketId} not found");
-            ticket.Reopen(command.UserId);
+        }
+
+        public async Task Handle(ReopenTicketCommand request, CancellationToken cancellationToken)
+        {
+            if (request == null) throw new BadRequestException("Ticket not valid");
+            var ticket = await _repository.GetAsync(request.TicketId);
+            if (ticket == null) throw new NotFoundException($"Ticket {request.TicketId} not found");
+            ticket.Reopen(request.UserId);
             await _repository.UpdateAsync(ticket);
         }
     }
