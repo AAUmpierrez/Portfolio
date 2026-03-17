@@ -27,7 +27,9 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
             if (request.Id <= 0) throw new BadRequestException("Ticket not valid");
             var ticket =  await _repository.GetAsync(request.Id);
             if (ticket == null) throw new NotFoundException($"Ticket {request.Id} not found");
-            return TicketMapper.TicketToTicketDto(ticket);
+            TicketDto dto = TicketMapper.TicketToTicketDto(ticket);
+            dto.Comments = TicketMapper.CommentsToCommentDto(ticket.Comments);
+            return dto;
         }
     }
 }

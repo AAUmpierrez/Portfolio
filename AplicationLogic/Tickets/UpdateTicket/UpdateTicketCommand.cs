@@ -10,14 +10,9 @@ namespace AplicationLogic.Tickets.Ticketinterf
 {
     public class UpdateTicketCommand:IRequest
     {
-        public int Id { get; set; }
+        public int TicketId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int Priority { get; set; }
-        public int State { get; set; }
-        public int? AssignedUserId { get; set; }
-        public int CreatorUserId {  get; set; }
-        public DateTime SlaDueDate {  get; set; }
 
     }
 }

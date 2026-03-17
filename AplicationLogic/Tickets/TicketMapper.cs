@@ -39,16 +39,16 @@ namespace SharedLogic.Mappers
                 TimeRemainig = t.SlaDueDate - DateTime.Now,
             });
         }
-        public static Ticket UpdateTicketCommandToUpdateTicket(UpdateTicketCommand tCommand)
-        {
-            Ticket ticket = new Ticket(tCommand.Title,
-                                       tCommand.Description,
-                                       (TicketPriority)tCommand.Priority,
-                                       tCommand.CreatorUserId,
-                                       tCommand.SlaDueDate);
-            return ticket;                                  
-        }
 
+        public static IEnumerable<TicketCommentDto> CommentsToCommentDto(IEnumerable<TicketComment> comments)
+        {
+            return comments.Select(c => new TicketCommentDto()
+            {
+                TicketId = c.Id,
+                Content = c.Content,
+                IsInternal = c.IsInternal,
+            });
+        }
 
         public static TicketDto TicketToTicketDto(Ticket ticket)
         {
@@ -57,8 +57,9 @@ namespace SharedLogic.Mappers
                 Id = ticket.Id,
                 Title = ticket.Title,
                 Description = ticket.Description,
-                CreatorUser = ticket.CreatorUserId
-
+                CreatorUser = ticket.CreatorUserId,
+                Priority = ticket.Priority,
+                State = ticket.State
             };
         }
 

@@ -52,7 +52,7 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
             }
 
 
-            return TicketMapper.TicketsToTicketListDto(tickets.ToList());
+            return TicketMapper.TicketsToTicketListDto(query.ToList());
         }
     }
 }

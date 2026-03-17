@@ -1,6 +1,7 @@
 ﻿using AplicationLogic.DTOs.User;
 using AplicationLogic.UseCasesInterface.User;
 using AplicationLogic.Users.Login;
+using BussinesLogic.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,19 +41,24 @@ namespace TicketFlowApi.Controllers
         {
             {
                 if (id <= 0) return BadRequest("User not valid");
-                GetUserDto user = await _mediator.Send(new GetUserQuery { Id = id });
+                GetUserDto user = await _mediator.Send(new GetUserQuery { Id = id});
                 return Ok(user);
             }
         }
 
         // POST api/<UserController>
         [Authorize(Roles ="Admin,Support")]
-        [HttpPost(Name ="AddUser")]
+        [HttpPost(Name = "AddUser")]
         public async Task<IActionResult> Post([FromBody] AddUserCommand command)
         {
-                if (command == null) return BadRequest("Command not valid");
-                var id = await _mediator.Send(command);
-                return CreatedAtRoute("GetUser", new { id }, null);
+            if (command == null) return BadRequest("Command not valid");
+            var id = await _mediator.Send(command);
+            var user = await _mediator.Send(new GetUserQuery { Id = id });
+            return CreatedAtAction(
+                nameof(Get),
+                new { id = id },
+                user
+            );
         }
 
         // PUT api/<UserController>/5
@@ -68,7 +74,7 @@ namespace TicketFlowApi.Controllers
 
         // DELETE api/<UserController>/5
         [Authorize(Roles = "Admin,Support")]
-        [HttpPut("disable/{id}")]
+        [HttpPatch("disable/{id}")]
         public async Task<IActionResult> Disable(int id)
         {
             if (id <= 0) return BadRequest("User not valid");
@@ -78,7 +84,7 @@ namespace TicketFlowApi.Controllers
                 DisableBy = id
             };
             await _mediator.Send(command);
-            return Ok();
+            return NoContent();
         }
 
 
@@ -92,19 +98,12 @@ namespace TicketFlowApi.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles ="Admin")]
-        [HttpGet("test")]
-        public IActionResult Test()
-        {
-            return Ok("Token válido");
-        }
-
-        [HttpPut("addComment")]
-        public async Task<IActionResult> AddComment(AddCommentCommand command)
+        [HttpPost("addComment")]
+        public async Task<IActionResult> AddComment(AddUserCommentCommand command)
         {
             if (command == null) return BadRequest("Command not valid");
             await _mediator.Send(command);
-            return Ok();
+            return Created();
         }
 
 

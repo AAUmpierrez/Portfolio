@@ -2,6 +2,7 @@
 using AplicationLogic.Tickets.Ticketinterf;
 using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
+using MediatR;
 using SharedLogic.DTOs.Ticket;
 using SharedLogic.Exceptions;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.UseCasesImplementation.Ticket
 {
-    public class ChangePriorityCommandHandler : ICommandHandler<ChangePriorityCommand>
+    public class ChangePriorityCommandHandler : IRequestHandler<ChangePriorityCommand>
     {
         private ITicketRepository _repository {  get; set; }
 
@@ -20,12 +21,12 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
         {
             _repository = repository;
         }
-        public async Task Execute(ChangePriorityCommand command)
+        public async Task Handle(ChangePriorityCommand request, CancellationToken cancellationToken)
         {
-            if (command == null) throw new BadRequestException("Ticket not valid");
-            var ticket = await _repository.GetAsync(command.TicketId);
-            if (ticket == null) throw new NotFoundException($"Ticket {command.TicketId} not found");
-            ticket.ChangePriority((TicketPriority)command.NewPriority, command.CurrentUser);
+            if (request == null) throw new BadRequestException("Ticket not valid");
+            var ticket = await _repository.GetAsync(request.TicketId);
+            if (ticket == null) throw new NotFoundException($"Ticket {request.TicketId} not found");
+            ticket.ChangePriority((TicketPriority)request.NewPriority, request.CurrentUser);
             await _repository.UpdateAsync(ticket);
         }
     }

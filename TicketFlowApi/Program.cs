@@ -1,6 +1,7 @@
 
 using AplicationLogic.Common;
 using AplicationLogic.Interfaces.Security;
+using AplicationLogic.Services;
 using BussinesLogic.Entities;
 using BussinesLogic.RepositoryInterfaces;
 using DataAccessLogic;
@@ -30,7 +31,7 @@ namespace TicketFlowApi
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ITicketRepository, TicketRepository>();
-
+            builder.Services.AddScoped<SlaCalculatorService>();
             //mediatR
             builder.Services.AddMediatR(cfg =>
                                         cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly));

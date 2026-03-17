@@ -2,6 +2,7 @@
 using AplicationLogic.Interfaces;
 using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.Tickets.Dashboard
 {
-    public class GetTicketDashboardQueryHandler : IQueryHandler<GetTicketDashboardQuery, TicketDashboardDto>
+    public class GetTicketDashboardQueryHandler : IRequestHandler<GetTicketDashboardQuery, TicketDashboardDto>
     {
         private ITicketRepository _ticketRepository { get; set; }
 
@@ -19,7 +20,8 @@ namespace AplicationLogic.Tickets.Dashboard
         {
             _ticketRepository = ticketRepository;
         }
-        public Task<TicketDashboardDto> Execute(GetTicketDashboardQuery request)
+
+        public async Task<TicketDashboardDto> Handle(GetTicketDashboardQuery request, CancellationToken cancellationToken)
         {
             var query = _ticketRepository.Query();
             var openTickets =  query.Count(t => t.State == TicketState.Open);
@@ -36,8 +38,8 @@ namespace AplicationLogic.Tickets.Dashboard
                 SlaNearToExpire = slaNearToExpire
             };
 
-            return Task.FromResult(dashboard);
-        } 
-    
+            return await Task.FromResult(dashboard);
+            //return dashboard;
+        }
     }
 }

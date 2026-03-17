@@ -24,7 +24,7 @@ namespace AplicationLogic.Tickets.ChangeState.AssignTicket
             if (request == null) throw new BadRequestException("Ticket not valid");
             var ticket = await _repository.GetAsync(request.TicketId);
             if (ticket == null) throw new NotFoundException($"Ticket{request.TicketId} not found");            
-            ticket.Assigned(request.UserId);
+            ticket.Assigned(request.AssignedByUserId,request.AssignedUserId);
             await _repository.UpdateAsync(ticket);
         }
     }

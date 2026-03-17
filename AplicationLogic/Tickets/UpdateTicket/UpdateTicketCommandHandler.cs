@@ -23,18 +23,18 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
             _repository = repository;
         }
 
-        public async Task Execute(UpdateTicketCommand tCommand)
-        {
-        }
-
         public async Task Handle(UpdateTicketCommand request, CancellationToken cancellationToken)
         {
             if (request == null) throw new BadRequestException("Command not valid");
-            if ((TicketState)request.State == TicketState.Close && request.AssignedUserId.HasValue)
+            var ticket = await _repository.GetAsync(request.TicketId);
+
+            if (ticket == null) throw new BadRequestException("Ticket not found");
+
+            if ((ticket.State == TicketState.Close && ticket.AssignedUserId.HasValue))
                 throw new BussinesException("Closed Ticket can not be modify");
+            ticket.UpdateDetails(request.Title,request.Description);
 
-
-            await _repository.UpdateAsync(TicketMapper.UpdateTicketCommandToUpdateTicket(request));
+            await _repository.UpdateAsync(ticket);
         }
     }
 }

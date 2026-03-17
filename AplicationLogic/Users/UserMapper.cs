@@ -17,7 +17,7 @@ namespace SharedLogic.Mappers
         public static User AddUserComandToUser(AddUserCommand command) 
         {
             if (command == null) throw new BadRequestException("Error, the entered data is incorrect");
-            User u  = new User(command.firstName, command.lasName,command.email,command.password,command.role);
+            User u  = new User(command.FirstName, command.LasName,command.Email,command.Password,command.Role);
             return u;
         }
         public static GetUserDto UserToUserDto(User user)

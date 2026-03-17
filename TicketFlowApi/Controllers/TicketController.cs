@@ -5,12 +5,15 @@ using AplicationLogic.Tickets.ChangeState.InProcessTicket;
 using AplicationLogic.Tickets.ChangeState.ReopenTicket;
 using AplicationLogic.Tickets.ChangeState.ResolveTicket;
 using AplicationLogic.Tickets.ChangeState.WaitingTicket;
+using AplicationLogic.Tickets.Dashboard;
 using AplicationLogic.Tickets.Ticketinterf;
+using AplicationLogic.UseCasesInterface.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedLogic.DTOs.Ticket;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,10 +30,10 @@ namespace TicketFlowApi.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/<TicketController>
+
         [Authorize(Roles = "Admin,Support")]
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromBody]GetAllTicketQuery query)
+        public async Task<IActionResult> GetAll([FromQuery]GetAllTicketQuery query)
         {
             if (query == null) return BadRequest("Query not valid");
             var tickets= await _mediator.Send(query);
@@ -43,41 +46,66 @@ namespace TicketFlowApi.Controllers
         public async Task<IActionResult> Get(int id)
         {
             if (id == 0) return BadRequest("Ticket id not valid");
-            var ticket = await _mediator.Send(new GetUserDto {Id = id });
+            var ticket = await _mediator.Send(new GetTicketQuery {Id = id });
             return Ok(ticket);
         }
 
         // POST api/<TicketController>
-        [Authorize(Roles = "Admin,Support")]
+        //[Authorize(Roles = "Admin,Support")]
         [HttpPost("AddTicket")]
         public async Task<IActionResult> Post([FromBody] AddTicketCommand command )
         {
             if (command == null) return BadRequest("Command not valid");
+            command.CreatorUser = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             int id = await _mediator.Send(command);
-            return CreatedAtRoute("GetTicketById", new { Id = id},null);
+            var ticket = await _mediator.Send(new GetTicketQuery { Id = id });
+            return CreatedAtAction(
+                    nameof(Get),
+                    new { id = id },
+                    ticket
+                );
         }
 
+        //[Authorize(Roles = "Admin,Support")]
+        [HttpPost("addComment/{id}")]
+        public async Task<IActionResult> AddComment([FromBody] AddTicketCommentCommand command, int id)
+        {
+            if (command == null) return BadRequest("Command not valid");
+            command.TicketId = id;
+            await _mediator.Send(command);
+            return Created();
+        }
+
+        //[Authorize(Roles = "Admin,Support")]
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> Dashboard()
+        {
+            var dashboard = await _mediator.Send(new GetTicketDashboardQuery());
+            return Ok(dashboard);
+        }
+
+
         // PUT api/<TicketController>/5
-        [Authorize(Roles ="Admin,Support")]
+        //[Authorize(Roles ="Admin,Support")]
         [HttpPut("update/ticket/{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateTicketCommand comand)
         {
             if (comand == null) return BadRequest("Command not valid");
             if (id <= 0) return BadRequest("Ticket not valid");
-            comand.Id = id;
+            comand.TicketId = id;
             await _mediator.Send(comand);
-            return Ok($"{comand.Title} updated");
+            return NoContent();
         }
 
-        // DELETE api/<TicketController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //// DELETE api/<TicketController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
 
         //Disable
-        [Authorize(Roles ="Admin,Support")]
-        [HttpPut("sDelete/{id}")]
+        //[Authorize(Roles ="Admin,Support")]
+        [HttpPatch("sDelete/{id}")]
         public async Task<IActionResult> SoftDelete(int id)
         {
             if (id <= 0) return BadRequest("Ticket not valid");
@@ -87,44 +115,44 @@ namespace TicketFlowApi.Controllers
                 UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
             };
             await _mediator.Send(command);
-            return Ok();
+            return NoContent();
         }
 
-        [Authorize(Roles = "Admin,Support")]
-        [HttpPost("assignTicket/{id}")]
+        //[Authorize(Roles = "Admin,Support")]
+        [HttpPatch("assignTicket/{id}")]
         public async Task<IActionResult> AssignTicket([FromBody]AssignTicketCommand command, int id)
         {
             if (command == null) return BadRequest("Command not valid");
             if (id <= 0) return BadRequest("Ticket not valid");
             command.TicketId = id;
-            command.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            command.AssignedByUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             await _mediator.Send(command);
-            return Ok();
+            return NoContent();
         }
 
-        [Authorize(Roles = "Admin,Support")]
-        [HttpPost("processTicket/{id}")]
+        //[Authorize(Roles = "Admin,Support")]
+        [HttpPatch("processTicket/{id}")]
         public async Task<IActionResult> InProccess([FromBody] ProcessTicketCommand command, int id)
         {
             if (command == null) return BadRequest("Command not valid");
             if (id <= 0) return BadRequest("Ticket not valid");
             command.TicketId = id;
             await _mediator.Send(command);
-            return Ok();
+            return NoContent();
         }
 
-        [Authorize(Roles = "Admin,Support")]
-        [HttpPost("waitingTicket/{id}")]
+        //[Authorize(Roles = "Admin,Support")]
+        [HttpPatch("waitingTicket/{id}")]
         public async Task<IActionResult> Waiting([FromBody] WaitingTicketCommand command, int id)
         {
             if (command == null) return BadRequest("Command not valid");
             if (id <= 0) return BadRequest("Ticket not valid");
             command.TicketId = id;
             await _mediator.Send(command);
-            return Ok();
+            return NoContent();
         }
-        [Authorize(Roles = "Admin,Support")]
-        [HttpPost("resolveTicket/{id}")]
+        //[Authorize(Roles = "Admin,Support")]
+        [HttpPatch("resolveTicket/{id}")]
         public async Task<IActionResult> Resolve([FromBody] ResolveTicketCommand command, int id)
         {
             if (command == null) return BadRequest("Command not valid");
@@ -132,10 +160,10 @@ namespace TicketFlowApi.Controllers
             command.TicketId = id;
             command.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             await _mediator.Send(command);
-            return Ok();
+            return NoContent();
         }
-        [Authorize(Roles = "Admin,Support")]
-        [HttpPost("reopenTicket/{id}")]
+        //[Authorize(Roles = "Admin,Support")]
+        [HttpPatch("reopenTicket/{id}")]
         public async Task<IActionResult> Reopen([FromBody] ReopenTicketCommand command, int id)
         {
             if (command == null) return BadRequest("Command not valid");
@@ -143,10 +171,10 @@ namespace TicketFlowApi.Controllers
             command.TicketId = id;
             command.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             await _mediator.Send(command);
-            return Ok();
+            return NoContent();
         }
-        [Authorize(Roles = "Admin,Support")]
-        [HttpPost("closeTicket/{id}")]
+        //[Authorize(Roles = "Admin,Support")]
+        [HttpPatch("closeTicket/{id}")]
         public async Task<IActionResult> Close([FromBody] CloseTicketCommand command, int id)
         {
             if (command == null) return BadRequest("Command not valid");
@@ -154,7 +182,20 @@ namespace TicketFlowApi.Controllers
             command.TicketId = id;
             command.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             await _mediator.Send(command);
-            return Ok();
+            return NoContent();
+        }
+
+
+        //[Authorize(Roles = "Admin,Support")]
+        [HttpPatch("changePriority/{id}")]
+        public async Task<IActionResult> ChangePriority([FromBody] ChangePriorityCommand command, int id)
+        {
+            if (command == null) return BadRequest("Command not valid");
+            if (id <= 0) return BadRequest("Ticket not valid");
+            command.TicketId = id;
+            command.CurrentUser = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _mediator.Send(command);
+            return NoContent();
         }
 
     }

@@ -10,6 +10,7 @@ namespace AplicationLogic.Tickets.ChangeState.AssignTicket
     public class AssignTicketCommand:IRequest
     {
         public int TicketId { get; set; }
-        public int UserId { get; set; }
+        public int AssignedUserId { get; set; }
+        public int AssignedByUserId { get; set; }
     }
 }

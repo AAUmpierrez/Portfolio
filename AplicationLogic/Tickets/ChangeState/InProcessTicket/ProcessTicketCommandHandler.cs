@@ -23,6 +23,7 @@ namespace AplicationLogic.Tickets.ChangeState.InProcessTicket
             if (request == null) throw new BadRequestException("Command not valid");
             var ticket = await _repository.GetAsync(request.TicketId);
             if (ticket == null) throw new NotFoundException("Ticket not found");
+            ticket.InProcess();
             await _repository.UpdateAsync(ticket);
         }
     }

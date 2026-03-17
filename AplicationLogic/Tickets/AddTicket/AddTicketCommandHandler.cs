@@ -14,16 +14,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace AplicationLogic.UseCasesImplementation.Ticket
+namespace AplicationLogic.Tickets.AddTicket
 {
     public class AddTicketCommandHandler : IRequestHandler<AddTicketCommand,int>
     {
         private ITicketRepository _repository {  get; set; }
         private SlaCalculatorService _slaCalculator { get; set; }
 
-        public AddTicketCommandHandler(ITicketRepository repository)
+        public AddTicketCommandHandler(ITicketRepository repository,SlaCalculatorService slaCalculatorService)
         {
             _repository = repository;
+            _slaCalculator = slaCalculatorService;
         }
 
 
@@ -33,8 +34,10 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
             var createdAt = DateTime.Now;
             var slaDueDate = _slaCalculator.CalculateDueDate((TicketPriority)request.Priority, createdAt);
             request.SlaDueDate = slaDueDate;
-            await _repository.AddAsync(TicketMapper.AddTicketCommandToTicket(request));
-            return request.Id;
+            var ticket = TicketMapper.AddTicketCommandToTicket(request);
+
+            await _repository.AddAsync(ticket);
+            return ticket.Id;
         }
     }
 }
