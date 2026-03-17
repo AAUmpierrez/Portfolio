@@ -1,4 +1,5 @@
-﻿using AplicationLogic.DTOs.User;
+﻿using AplicationLogic.DTOs.Ticket;
+using AplicationLogic.DTOs.User;
 using AplicationLogic.Tickets.ChangeState.AssignTicket;
 using AplicationLogic.Tickets.ChangeState.CloseTicket;
 using AplicationLogic.Tickets.ChangeState.InProcessTicket;
@@ -51,11 +52,17 @@ namespace TicketFlowApi.Controllers
         }
 
         // POST api/<TicketController>
-        //[Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support")]
         [HttpPost("AddTicket")]
-        public async Task<IActionResult> Post([FromBody] AddTicketCommand command )
+        public async Task<IActionResult> Post([FromBody] AddTicketDto dto )
         {
-            if (command == null) return BadRequest("Command not valid");
+            if (dto == null) return BadRequest("Command not valid");
+            var command = new AddTicketCommand
+            {
+                Title = dto.Title,
+                Description = dto.Description,
+                Priority = dto.Priority
+            };
             command.CreatorUser = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             int id = await _mediator.Send(command);
             var ticket = await _mediator.Send(new GetTicketQuery { Id = id });
@@ -66,7 +73,8 @@ namespace TicketFlowApi.Controllers
                 );
         }
 
-        //[Authorize(Roles = "Admin,Support")]
+
+        [Authorize(Roles = "Admin,Support")]
         [HttpPost("addComment/{id}")]
         public async Task<IActionResult> AddComment([FromBody] AddTicketCommentCommand command, int id)
         {
@@ -76,7 +84,7 @@ namespace TicketFlowApi.Controllers
             return Created();
         }
 
-        //[Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support")]
         [HttpGet("dashboard")]
         public async Task<IActionResult> Dashboard()
         {
@@ -86,7 +94,7 @@ namespace TicketFlowApi.Controllers
 
 
         // PUT api/<TicketController>/5
-        //[Authorize(Roles ="Admin,Support")]
+        [Authorize(Roles = "Admin,Support")]
         [HttpPut("update/ticket/{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateTicketCommand comand)
         {
@@ -104,7 +112,7 @@ namespace TicketFlowApi.Controllers
         //}
 
         //Disable
-        //[Authorize(Roles ="Admin,Support")]
+        [Authorize(Roles = "Admin,Support")]
         [HttpPatch("sDelete/{id}")]
         public async Task<IActionResult> SoftDelete(int id)
         {
@@ -118,7 +126,8 @@ namespace TicketFlowApi.Controllers
             return NoContent();
         }
 
-        //[Authorize(Roles = "Admin,Support")]
+
+        [Authorize(Roles = "Admin,Support")]
         [HttpPatch("assignTicket/{id}")]
         public async Task<IActionResult> AssignTicket([FromBody]AssignTicketCommand command, int id)
         {
@@ -130,7 +139,7 @@ namespace TicketFlowApi.Controllers
             return NoContent();
         }
 
-        //[Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support")]
         [HttpPatch("processTicket/{id}")]
         public async Task<IActionResult> InProccess([FromBody] ProcessTicketCommand command, int id)
         {
@@ -141,7 +150,7 @@ namespace TicketFlowApi.Controllers
             return NoContent();
         }
 
-        //[Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support")]
         [HttpPatch("waitingTicket/{id}")]
         public async Task<IActionResult> Waiting([FromBody] WaitingTicketCommand command, int id)
         {
@@ -151,7 +160,7 @@ namespace TicketFlowApi.Controllers
             await _mediator.Send(command);
             return NoContent();
         }
-        //[Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support")]
         [HttpPatch("resolveTicket/{id}")]
         public async Task<IActionResult> Resolve([FromBody] ResolveTicketCommand command, int id)
         {
@@ -162,7 +171,7 @@ namespace TicketFlowApi.Controllers
             await _mediator.Send(command);
             return NoContent();
         }
-        //[Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support")]
         [HttpPatch("reopenTicket/{id}")]
         public async Task<IActionResult> Reopen([FromBody] ReopenTicketCommand command, int id)
         {
@@ -173,7 +182,7 @@ namespace TicketFlowApi.Controllers
             await _mediator.Send(command);
             return NoContent();
         }
-        //[Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support")]
         [HttpPatch("closeTicket/{id}")]
         public async Task<IActionResult> Close([FromBody] CloseTicketCommand command, int id)
         {
@@ -186,7 +195,7 @@ namespace TicketFlowApi.Controllers
         }
 
 
-        //[Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support")]
         [HttpPatch("changePriority/{id}")]
         public async Task<IActionResult> ChangePriority([FromBody] ChangePriorityCommand command, int id)
         {

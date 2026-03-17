@@ -1,5 +1,6 @@
 ﻿using AplicationLogic.DTOs.User;
 using AplicationLogic.UseCasesInterface.User;
+using AplicationLogic.Users.EnableUser;
 using AplicationLogic.Users.Login;
 using BussinesLogic.Entities;
 using MediatR;
@@ -72,7 +73,7 @@ namespace TicketFlowApi.Controllers
             return NoContent();
         }
 
-        // DELETE api/<UserController>/5
+        // Disable
         [Authorize(Roles = "Admin,Support")]
         [HttpPatch("disable/{id}")]
         public async Task<IActionResult> Disable(int id)
@@ -82,6 +83,21 @@ namespace TicketFlowApi.Controllers
             {
                 UserId = id,
                 DisableBy = id
+            };
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        // Enable
+        [Authorize(Roles = "Admin,Support")]
+        [HttpPatch("enable/{id}")]
+        public async Task<IActionResult> Enable(int id)
+        {
+            if (id <= 0) return BadRequest("User not valid");
+            var command = new EnableUserCommand
+            {
+                UserId = id,
+                CurrentUserId = id
             };
             await _mediator.Send(command);
             return NoContent();
