@@ -42,8 +42,7 @@ namespace DataAccessLogic.Repositories
         public async Task<Ticket> GetAsync(int id)
         {
             return await _context.Tickets.Include(t => t.Comments)
-                                        .Include(t => t.CreatorUserId)
-                                        .Include(t => t.AssignedUser)
+                                        .Include(t => t.CreatorUser)
                                         .SingleOrDefaultAsync(t => t.Id == id);
         }
 

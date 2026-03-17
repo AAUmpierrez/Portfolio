@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplicationLogic.Tickets.ChangeState.ResolveTicket
+namespace AplicationLogic.Tickets.ChangeState.WaitingTicket
 {
-    public class ResolveTicketCommand:IRequest
+    public class WaitingTicketCommand:IRequest
     {
         public int TicketId { get; set; }
-        public int UserId {  get; set; }
+        public string Comment { get; set; }
     }
 }

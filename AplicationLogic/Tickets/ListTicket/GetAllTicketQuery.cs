@@ -1,4 +1,5 @@
 ﻿using BussinesLogic.Enums;
+using MediatR;
 using SharedLogic.DTOs.Ticket;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.Tickets.Ticketinterf
 {
-    public class GetAllTicketQuery
+    public class GetAllTicketQuery:IRequest<IEnumerable<TicketListDto>>
     {
         public int Priority { get; set; }
 

@@ -12,6 +12,8 @@ namespace BussinesLogic.Entities
         public User CreatorUser { get; set; }
         public int? AssignedUserId { get; set; } 
         public User? AssignedUser { get; set; }
+        public int? AssignedByUserId { get; set; }
+        public User? AssignedByUser { get; set; }
         public int? ResolvedById { get; set; }
         public User? ResolvedBy { get; set; }
         public DateTime AssignedDate { get; set; }
@@ -32,8 +34,8 @@ namespace BussinesLogic.Entities
 
         public Ticket(string title, string description, TicketPriority priority, int creatorUserId, DateTime slaDueDate)
         {
-            Title = string.Empty;
-            Description = string.Empty;
+            Title = title;
+            Description = description;
             State = TicketState.Open;
             Priority = priority;
             CreatorUserId = creatorUserId;
@@ -56,17 +58,18 @@ namespace BussinesLogic.Entities
             ClosedBy = userId;
             AddHistory(userId,"Close",oldValue,State.ToString());
         }
-        public void Assigned(int assignedByUserId)
+        public void Assigned(int assignedByUserId, int assignedUserId)
         {
             if (State == TicketState.Close)
                 throw new Exception("Closed ticket cannot be modified.");
-            AssignedUserId = assignedByUserId;
+            AssignedUserId = assignedUserId;
+            AssignedByUserId = assignedByUserId;
             AssignedDate = DateTime.UtcNow;
             string oldValue = State.ToString();
             State = TicketState.Assigned;
             AddHistory(assignedByUserId, "Assigned", oldValue, State.ToString());
         }
-        public void InProgress()
+        public void InProcess()
         {
             if (State == TicketState.Close)
                 throw new Exception("Closed ticket cannot be modified.");
@@ -77,14 +80,14 @@ namespace BussinesLogic.Entities
             State = TicketState.InProcess;
         }
 
-        public void Waiting()
+        public void Waiting(string comment)
         {
             if (State == TicketState.Close)
                 throw new Exception("Closed ticket cannot be modified.");
 
             if (State != TicketState.InProcess)
                 throw new Exception("Only tickets in process can be set to waiting.");
-
+            Comments.Add(new TicketComment(Id,comment,true));
             State = TicketState.Waiting;
         }
 
@@ -128,6 +131,14 @@ namespace BussinesLogic.Entities
             string oldValue = Priority.ToString();
             Priority = newPriority;
             AddHistory(userId, "Close", oldValue, Priority.ToString());
+        }
+        public void UpdateDetails(string title, string description)
+        {
+            if (State == TicketState.Close)
+                throw new Exception("Closed tickets cannot be edited");
+
+            Title = title;
+            Description = description;
         }
 
     }

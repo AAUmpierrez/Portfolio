@@ -1,6 +1,7 @@
 ﻿using AplicationLogic.Interfaces;
 using AplicationLogic.Tickets.ChangeState.AssignTicket;
 using BussinesLogic.RepositoryInterfaces;
+using MediatR;
 using SharedLogic.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.Tickets.ChangeState.ResolveTicket
 {
-    public class ResolveTicketCommandHandler : ICommandHandler<ResolveTicketCommand>
+    public class ResolveTicketCommandHandler : IRequestHandler<ResolveTicketCommand>
     {
         private ITicketRepository _repository { get; set; }
 
@@ -19,12 +20,13 @@ namespace AplicationLogic.Tickets.ChangeState.ResolveTicket
             _repository = repository;
         }
 
-        public async Task Execute(ResolveTicketCommand command)
+
+        public async Task Handle(ResolveTicketCommand request, CancellationToken cancellationToken)
         {
-            if (command == null) throw new BadRequestException("Ticket not valid");
-            var ticket = await _repository.GetAsync(command.TicketId);
-            if (ticket == null) throw new NotFoundException($"Ticket {command.TicketId} not found");
-            ticket.Resolve(command.UserId);
+            if (request == null) throw new BadRequestException("Ticket not valid");
+            var ticket = await _repository.GetAsync(request.TicketId);
+            if (ticket == null) throw new NotFoundException($"Ticket {request.TicketId} not found");
+            ticket.Resolve(request.UserId);
             await _repository.UpdateAsync(ticket);
         }
     }

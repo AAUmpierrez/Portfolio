@@ -10,10 +10,10 @@ namespace AplicationLogic.UseCasesInterface.User
 {
     public class AddUserCommand:IRequest<int>
     {
-        public string firstName { get; set; }
-        public string lasName { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public int role { get; set; }
+        public string FirstName { get; set; }
+        public string LasName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int Role { get; set; }
     }
 }

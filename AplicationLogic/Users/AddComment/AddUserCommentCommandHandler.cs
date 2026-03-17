@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace AplicationLogic.UseCasesInterface.User
 {
-    public class AddCommentCommandHandler : IRequestHandler<AddCommentCommand>
+    public class AddUserCommentCommandHandler : IRequestHandler<AddUserCommentCommand>
     {
         private IUserRepository _repository {  get; set; }
 
-        public AddCommentCommandHandler(IUserRepository repository)
+        public AddUserCommentCommandHandler(IUserRepository repository)
         {
             _repository = repository;
         }
-        public async Task Handle(AddCommentCommand request, CancellationToken cancellationToken)
+        public async Task Handle(AddUserCommentCommand request, CancellationToken cancellationToken)
         {
             if (request == null) throw new BadRequestException("Command not valid");
             var user = await _repository.GetAsync(request.UserId);
