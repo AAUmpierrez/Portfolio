@@ -24,6 +24,7 @@ namespace SharedLogic.Mappers
         {
             return new GetUserDto
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,

@@ -47,7 +47,7 @@ namespace TicketFlowApi.Controllers
         }
 
         // POST api/<UserController>
-        [Authorize(Roles ="Admin,Support")]
+        
         [HttpPost(Name = "AddUser")]
         public async Task<IActionResult> Post([FromBody] AddUserCommand command)
         {
@@ -56,7 +56,7 @@ namespace TicketFlowApi.Controllers
             var user = await _mediator.Send(new GetUserQuery { Id = id });
             return CreatedAtAction(
                 nameof(Get),
-                new { id = id },
+                new { Id=user.Id },
                 user
             );
         }
@@ -98,6 +98,7 @@ namespace TicketFlowApi.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin,Support")]
         [HttpPost("addComment")]
         public async Task<IActionResult> AddComment(AddUserCommentCommand command)
         {

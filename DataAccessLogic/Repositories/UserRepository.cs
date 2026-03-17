@@ -23,7 +23,6 @@ namespace DataAccessLogic.Repositories
 
         public async Task AddAsync(User item)
         {
-            if (await GetByEmailAsync(item.Email) != null) throw new BussinesException("Error. A user with that email address already exists");
             await _context.Users.AddAsync(item);
             await _context.SaveChangesAsync();
         }
