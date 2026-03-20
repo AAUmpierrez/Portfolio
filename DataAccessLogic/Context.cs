@@ -155,6 +155,13 @@ namespace DataAccessLogic
                   .HasOne(x => x.Ticket)
                   .WithMany(x => x.Attachments)
                   .HasForeignKey(x => x.TicketId);
+
+            modelBuilder.Entity<TicketComment>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
 
 

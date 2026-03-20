@@ -11,6 +11,8 @@ namespace AplicationLogic.Tickets.Ticketinterf
     public class AddTicketCommentCommand:IRequest
     {
         public int TicketId { get; set; }
+        public int CurrentUserId { get; set; }
+         public string Role { get; set; }
         public string Content { get; set; }
         public bool IsInternal { get; set; }
     }

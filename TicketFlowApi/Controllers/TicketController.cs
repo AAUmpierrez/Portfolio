@@ -6,13 +6,13 @@ using AplicationLogic.Tickets.ChangeState.InProcessTicket;
 using AplicationLogic.Tickets.ChangeState.ReopenTicket;
 using AplicationLogic.Tickets.ChangeState.ResolveTicket;
 using AplicationLogic.Tickets.ChangeState.WaitingTicket;
+using AplicationLogic.Tickets.CommentList;
 using AplicationLogic.Tickets.Dashboard;
+using AplicationLogic.Tickets.GetMyTickets;
 using AplicationLogic.Tickets.Ticketinterf;
-using AplicationLogic.UseCasesInterface.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SharedLogic.DTOs.Ticket;
 using System.Security.Claims;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -33,16 +33,25 @@ namespace TicketFlowApi.Controllers
 
 
         [Authorize(Roles = "Admin,Support")]
-        [HttpGet]
+        [HttpGet("tickets")]
         public async Task<IActionResult> GetAll([FromQuery]GetAllTicketQuery query)
         {
             if (query == null) return BadRequest("Query not valid");
             var tickets= await _mediator.Send(query);
             return Ok(tickets);
         }
+        [Authorize(Roles = "Admin,Support,Client")]
+        [HttpGet("mytickets")]
+        public async Task<IActionResult> GetMyTickets([FromQuery] GetMyTicketsQuery query)
+        {
+            if (query == null) return BadRequest("Query not valid");
+            query.CurrentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var tickets = await _mediator.Send(query);
+            return Ok(tickets);
+        }
 
         // GET api/<TicketController>/5
-        [Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support,Client")]
         [HttpGet("ticket/{id}",Name ="GetTicketById")]
         public async Task<IActionResult> Get(int id)
         {
@@ -52,7 +61,7 @@ namespace TicketFlowApi.Controllers
         }
 
         // POST api/<TicketController>
-        [Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support,Client")]
         [HttpPost("AddTicket")]
         public async Task<IActionResult> Post([FromBody] AddTicketDto dto )
         {
@@ -74,15 +83,28 @@ namespace TicketFlowApi.Controllers
         }
 
 
-        [Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support,Client")]
         [HttpPost("addComment/{id}")]
         public async Task<IActionResult> AddComment([FromBody] AddTicketCommentCommand command, int id)
         {
             if (command == null) return BadRequest("Command not valid");
             command.TicketId = id;
+            command.CurrentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            command.Role = User.FindFirstValue(ClaimTypes.Role.ToString());
             await _mediator.Send(command);
             return Created();
         }
+
+        [Authorize(Roles = "Admin,Support,Client")]
+        [HttpGet("comments/ticket/{id}")]
+        public async Task<IActionResult> GetTicketComments(int id)
+        {
+            if (id <= 0) return BadRequest("Ticket not valid");
+            var comments = await _mediator.Send(new TicketCommentListQuery { TicketId = id });
+            return Ok(comments);
+        }
+
+
 
         [Authorize(Roles = "Admin,Support")]
         [HttpGet("dashboard")]
@@ -94,7 +116,7 @@ namespace TicketFlowApi.Controllers
 
 
         // PUT api/<TicketController>/5
-        [Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support,Client")]
         [HttpPut("update/ticket/{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateTicketCommand comand)
         {
@@ -130,7 +152,7 @@ namespace TicketFlowApi.Controllers
         [Authorize(Roles = "Admin,Support")]
         [HttpPatch("assignTicket/{id}")]
         public async Task<IActionResult> AssignTicket([FromBody]AssignTicketCommand command, int id)
-        {
+         {
             if (command == null) return BadRequest("Command not valid");
             if (id <= 0) return BadRequest("Ticket not valid");
             command.TicketId = id;
@@ -146,6 +168,7 @@ namespace TicketFlowApi.Controllers
             if (command == null) return BadRequest("Command not valid");
             if (id <= 0) return BadRequest("Ticket not valid");
             command.TicketId = id;
+            command.CurrentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             await _mediator.Send(command);
             return NoContent();
         }
@@ -157,6 +180,7 @@ namespace TicketFlowApi.Controllers
             if (command == null) return BadRequest("Command not valid");
             if (id <= 0) return BadRequest("Ticket not valid");
             command.TicketId = id;
+            command.CurrentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             await _mediator.Send(command);
             return NoContent();
         }
@@ -182,7 +206,7 @@ namespace TicketFlowApi.Controllers
             await _mediator.Send(command);
             return NoContent();
         }
-        [Authorize(Roles = "Admin,Support")]
+        [Authorize(Roles = "Admin,Support,Client")]
         [HttpPatch("closeTicket/{id}")]
         public async Task<IActionResult> Close([FromBody] CloseTicketCommand command, int id)
         {

@@ -25,7 +25,7 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
             if (request == null) throw new BadRequestException("Comment data not valid");
             var ticket = await _repository.GetAsync(request.TicketId);
             if (ticket == null) throw new BadRequestException("Error. Ticket not valid");
-            ticket.AddComment(request.Content, request.IsInternal);
+            ticket.AddComment(request.CurrentUserId,request.Role,request.Content,request.IsInternal);
             await _repository.UpdateAsync(ticket);
         }
     }

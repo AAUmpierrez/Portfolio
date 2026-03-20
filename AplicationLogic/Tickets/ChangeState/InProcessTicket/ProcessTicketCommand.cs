@@ -10,6 +10,6 @@ namespace AplicationLogic.Tickets.ChangeState.InProcessTicket
     public class ProcessTicketCommand:IRequest
     {
         public int TicketId { get; set; }
-
+        public int CurrentUserId { get; set; }
     }
 }

@@ -69,7 +69,7 @@ namespace BussinesLogic.Entities
             State = TicketState.Assigned;
             AddHistory(assignedByUserId, "Assigned", oldValue, State.ToString());
         }
-        public void InProcess()
+        public void InProcess(int userId)
         {
             if (State == TicketState.Close)
                 throw new Exception("Closed ticket cannot be modified.");
@@ -78,17 +78,20 @@ namespace BussinesLogic.Entities
                 throw new Exception("Only assigned tickets can start progress.");
             string oldValue = State.ToString();
             State = TicketState.InProcess;
+            AddHistory(userId, "InProcess", oldValue, State.ToString());
         }
 
-        public void Waiting(string comment)
+        public void Waiting(int userId)
         {
             if (State == TicketState.Close)
                 throw new Exception("Closed ticket cannot be modified.");
 
             if (State != TicketState.InProcess)
                 throw new Exception("Only tickets in process can be set to waiting.");
-            Comments.Add(new TicketComment(Id,comment,true));
+            string oldValue = State.ToString();
             State = TicketState.Waiting;
+            AddHistory(userId, "Waiting", oldValue, State.ToString());
+
         }
 
         public void Resolve(int resolvedByUserId)
@@ -114,10 +117,10 @@ namespace BussinesLogic.Entities
             ClosingDate = null;
             AddHistory(userId, "Reopen", oldValue, State.ToString());
         }
-        public void AddComment(string content,bool isInternal)
+        public void AddComment(int currentUser,string role,string content,bool isInternal)
         {
             if (State == TicketState.Close) throw new Exception("Ticket already closed");
-            TicketComment comment = new TicketComment(Id,content,isInternal);
+            TicketComment comment = new TicketComment(Id,currentUser,content,isInternal,role);
             Comments.Add(comment);
         }
 

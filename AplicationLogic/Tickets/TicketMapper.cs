@@ -44,9 +44,13 @@ namespace SharedLogic.Mappers
         {
             return comments.Select(c => new TicketCommentDto()
             {
-                TicketId = c.Id,
-                Content = c.Content,
+                TicketId = c.TicketId,
+                UserId = c.UserId,
+                UserName = c.User.FirstName + " " + c.User.LastName,
+                Message = c.Content,
+                Role = c.User.Role.Name,
                 IsInternal = c.IsInternal,
+                CreatedAt = c.CreatedAt
             });
         }
 
