@@ -31,9 +31,8 @@ namespace AplicationLogic.Tickets.RemoveTicketComment
                 {
                     System.IO.File.Delete(atts.FilePath);
                 }
-            }
-            var attachment = comment.Attachments.FirstOrDefault(a => a.Id == request.TicketAttachmentId);
-            comment.RemoveAttachment(attachment);
+            }            
+            ticket.Comments.Remove(comment);
             _ticketRepository.UpdateAsync(ticket);
         }
     }

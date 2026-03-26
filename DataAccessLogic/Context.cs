@@ -51,6 +51,7 @@ namespace DataAccessLogic
                 builder.Navigation(u => u.Comments)
                        .UsePropertyAccessMode(PropertyAccessMode.Field);
             });
+
             modelBuilder.Entity<UserComment>(builder =>
             {
                 builder.HasKey(c => c.Id);
@@ -71,12 +72,12 @@ namespace DataAccessLogic
             modelBuilder.Entity<User>()
                 .HasQueryFilter(u =>u.Status == UserStatus.Active);
 
-
             modelBuilder.Entity<User>(builder =>
             {
                 builder.Navigation(r => r.UserPermissions)
                        .UsePropertyAccessMode(PropertyAccessMode.Field);
             });
+
             modelBuilder.Entity<UserPermission>(up =>
             {
                 up.HasKey(x => new { x.UserId, x.PermissionId });
@@ -162,6 +163,11 @@ namespace DataAccessLogic
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<TicketComment>()
+                .HasMany(t => t.Attachments)
+                .WithOne(a => a.TicketComment)
+                .HasForeignKey(a => a.TicketCommentId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
 
