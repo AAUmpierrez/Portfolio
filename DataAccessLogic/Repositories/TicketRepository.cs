@@ -42,8 +42,9 @@ namespace DataAccessLogic.Repositories
         public async Task<Ticket> GetAsync(int id)
         {
             return await _context.Tickets.Include(t => t.Comments).ThenInclude(c=>c.User).ThenInclude(u=>u.Role)
-                                        .Include(t => t.CreatorUser)
-                                        .SingleOrDefaultAsync(t => t.Id == id);
+                                         .Include(t => t.CreatorUser)
+                                         .Include(t=>t.Comments).ThenInclude(c=>c.Attachments)
+                                         .SingleOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task UpdateAsync(Ticket item)

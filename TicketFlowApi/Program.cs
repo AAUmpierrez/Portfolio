@@ -106,7 +106,7 @@ namespace TicketFlowApi
                 app.UseSwaggerUI();
             }
             app.UseMiddleware<ExceptionMiddleware>();
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

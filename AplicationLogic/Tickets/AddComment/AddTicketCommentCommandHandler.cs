@@ -1,5 +1,6 @@
 ﻿using AplicationLogic.Interfaces;
 using AplicationLogic.Tickets.Ticketinterf;
+using BussinesLogic.Entities;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
 using SharedLogic.DTOs.Ticket;
@@ -25,7 +26,35 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
             if (request == null) throw new BadRequestException("Comment data not valid");
             var ticket = await _repository.GetAsync(request.TicketId);
             if (ticket == null) throw new BadRequestException("Error. Ticket not valid");
-            ticket.AddComment(request.CurrentUserId,request.Role,request.Content,request.IsInternal);
+
+            var comment = new TicketComment(ticket.Id, request.CurrentUserId, request.Role, request.IsInternal, request.Content);
+
+
+            if (request.File != null)
+            {
+                var uploadsFolder = Path.Combine("wwwroot", "uploads", "tickets");
+                var fileName = Guid.NewGuid() + Path.GetExtension(request.File.FileName);
+                var path = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await request.File.CopyToAsync(stream);
+                }
+                var relativePath = Path.Combine("uploads", "tickets", fileName).Replace("\\", "/");
+                var attachment = new TicketAttachment(
+                    comment.Id,
+                    fileName,
+                    "/"+ relativePath,
+                    request.File.Length,
+                    request.File.ContentType,
+                    comment.UserId
+                );
+                comment.AddAttachment(attachment);
+            }
+
+
+
+            ticket.AddComment(comment);
             await _repository.UpdateAsync(ticket);
         }
     }

@@ -9,6 +9,7 @@ using AplicationLogic.Tickets.ChangeState.WaitingTicket;
 using AplicationLogic.Tickets.CommentList;
 using AplicationLogic.Tickets.Dashboard;
 using AplicationLogic.Tickets.GetMyTickets;
+using AplicationLogic.Tickets.RemoveTicketComment;
 using AplicationLogic.Tickets.Ticketinterf;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -85,7 +86,7 @@ namespace TicketFlowApi.Controllers
 
         [Authorize(Roles = "Admin,Support,Client")]
         [HttpPost("addComment/{id}")]
-        public async Task<IActionResult> AddComment([FromBody] AddTicketCommentCommand command, int id)
+        public async Task<IActionResult> AddComment([FromForm] AddTicketCommentCommand command, int id)
         {
             if (command == null) return BadRequest("Command not valid");
             command.TicketId = id;
@@ -93,6 +94,18 @@ namespace TicketFlowApi.Controllers
             command.Role = User.FindFirstValue(ClaimTypes.Role.ToString());
             await _mediator.Send(command);
             return Created();
+        }
+
+        [Authorize(Roles = "Admin,Support,client")]
+        [HttpPatch("removeTicketComment/{id}")]
+        public async Task<IActionResult> ChangePriority([FromBody] RemoveTicketCommentCommand command, int id)
+        {
+           if(command == null) return BadRequest("Command not valid");
+            if (id <= 0) return BadRequest("Ticket not valid");
+            command.TicketId = id;
+            command.CurrentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _mediator.Send(command);
+            return NoContent();
         }
 
         [Authorize(Roles = "Admin,Support,Client")]
@@ -230,6 +243,11 @@ namespace TicketFlowApi.Controllers
             await _mediator.Send(command);
             return NoContent();
         }
+
+
+
+
+
 
     }
 }

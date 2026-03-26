@@ -152,9 +152,9 @@ namespace DataAccessLogic
             });
 
             modelBuilder.Entity<TicketAttachment>()
-                  .HasOne(x => x.Ticket)
+                  .HasOne(x => x.TicketComment)
                   .WithMany(x => x.Attachments)
-                  .HasForeignKey(x => x.TicketId);
+                  .HasForeignKey(x => x.TicketCommentId);
 
             modelBuilder.Entity<TicketComment>()
                 .HasOne(c => c.User)

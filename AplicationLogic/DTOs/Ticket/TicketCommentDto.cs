@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace SharedLogic.DTOs.Ticket
         public string Role { get; set; }
         public bool IsInternal { get; set; }
         public DateTime CreatedAt { get; set; }
+        public IFormFile ?Attachemnt { get; set; }
 
     }
 }

@@ -117,11 +117,16 @@ namespace BussinesLogic.Entities
             ClosingDate = null;
             AddHistory(userId, "Reopen", oldValue, State.ToString());
         }
-        public void AddComment(int currentUser,string role,string content,bool isInternal)
+        public void AddComment(TicketComment comment)
         {
             if (State == TicketState.Close) throw new Exception("Ticket already closed");
-            TicketComment comment = new TicketComment(Id,currentUser,content,isInternal,role);
             Comments.Add(comment);
+        }
+
+        public void RemoveComment(TicketComment comment)
+        {
+            if (State == TicketState.Close) throw new Exception("Ticket already closed");
+            Comments.Remove(comment);
         }
 
         public void ChangePriority(TicketPriority newPriority, int userId)

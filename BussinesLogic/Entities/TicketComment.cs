@@ -17,6 +17,7 @@ namespace BussinesLogic.Entities
         public string Content { get; set; }
         public bool IsInternal { get; set; }
         public DateTime CreatedAt { get; set; }
+        public IEnumerable<TicketAttachment> Attachments { get; set; } = new List<TicketAttachment>();
 
 
         private TicketComment() { }
@@ -29,6 +30,19 @@ namespace BussinesLogic.Entities
             IsInternal = isInternal;
             CreatedAt = DateTime.Now;
             Role = role;
+        }
+
+        public void AddAttachment(TicketAttachment attachment, int currentUser)
+        {
+            if (attachment == null) throw new Exception("Attachment cannot be null");
+
+            ((List<TicketAttachment>)Attachments).Add(attachment);
+        }
+
+        public void RemoveAttachment(TicketAttachment attachment) 
+        {
+            if (attachment == null) throw new Exception("Attachment cannot be null");
+            ((List<TicketAttachment>)Attachments).Remove(attachment);
         }
 
     }

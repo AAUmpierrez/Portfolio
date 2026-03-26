@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using SharedLogic.DTOs.Ticket;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace AplicationLogic.Tickets.Ticketinterf
          public string Role { get; set; }
         public string Content { get; set; }
         public bool IsInternal { get; set; }
+        public IFormFile? File { get; set; }
     }
 }
