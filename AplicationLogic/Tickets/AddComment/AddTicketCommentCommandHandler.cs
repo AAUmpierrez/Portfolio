@@ -27,7 +27,7 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
             var ticket = await _repository.GetAsync(request.TicketId);
             if (ticket == null) throw new BadRequestException("Error. Ticket not valid");
 
-            var comment = new TicketComment(ticket.Id, request.CurrentUserId, request.Role, request.IsInternal, request.Content);
+            var comment = new TicketComment(ticket.Id, request.CurrentUserId, request.Content, request.IsInternal, request.Role);
 
 
             if (request.File != null)
@@ -49,10 +49,8 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
                     request.File.ContentType,
                     comment.UserId
                 );
-                comment.AddAttachment(attachment);
+                comment.AddAttachment(attachment,request.CurrentUserId);
             }
-
-
 
             ticket.AddComment(comment);
             await _repository.UpdateAsync(ticket);

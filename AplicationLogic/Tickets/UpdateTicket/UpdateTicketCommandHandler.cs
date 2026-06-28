@@ -1,5 +1,4 @@
 ﻿using AplicationLogic.Interfaces;
-using AplicationLogic.Tickets.Ticketinterf;
 using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
@@ -12,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplicationLogic.UseCasesImplementation.Ticket
+namespace AplicationLogic.Tickets.UpdateTicket
 {
     public class UpdateTicketCommandHandler:IRequestHandler<UpdateTicketCommand>
     {
@@ -30,7 +29,7 @@ namespace AplicationLogic.UseCasesImplementation.Ticket
 
             if (ticket == null) throw new BadRequestException("Ticket not found");
 
-            if ((ticket.State == TicketState.Close && ticket.AssignedUserId.HasValue))
+            if (ticket.State == TicketState.Close && ticket.AssignedUserId.HasValue)
                 throw new BussinesException("Closed Ticket can not be modify");
             ticket.UpdateDetails(request.Title,request.Description);
 

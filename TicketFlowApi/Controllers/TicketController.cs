@@ -8,16 +8,17 @@ using AplicationLogic.Tickets.ChangeState.ResolveTicket;
 using AplicationLogic.Tickets.ChangeState.WaitingTicket;
 using AplicationLogic.Tickets.CommentList;
 using AplicationLogic.Tickets.Dashboard;
+using AplicationLogic.Tickets.GetByKeyword;
 using AplicationLogic.Tickets.GetMyTickets;
 using AplicationLogic.Tickets.RemoveTicketComment;
 using AplicationLogic.Tickets.Ticketinterf;
+using AplicationLogic.Tickets.UpdateTicket;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TicketFlowApi.Controllers
 {
@@ -27,7 +28,7 @@ namespace TicketFlowApi.Controllers
     {
         private readonly IMediator _mediator;
 
-        public TicketController (IMediator mediator)
+        public TicketController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -35,10 +36,10 @@ namespace TicketFlowApi.Controllers
 
         [Authorize(Roles = "Admin,Support")]
         [HttpGet("tickets")]
-        public async Task<IActionResult> GetAll([FromQuery]GetAllTicketQuery query)
+        public async Task<IActionResult> GetAll([FromQuery] GetAllTicketQuery query)
         {
             if (query == null) return BadRequest("Query not valid");
-            var tickets= await _mediator.Send(query);
+            var tickets = await _mediator.Send(query);
             return Ok(tickets);
         }
         [Authorize(Roles = "Admin,Support,Client")]
@@ -53,18 +54,18 @@ namespace TicketFlowApi.Controllers
 
         // GET api/<TicketController>/5
         [Authorize(Roles = "Admin,Support,Client")]
-        [HttpGet("ticket/{id}",Name ="GetTicketById")]
+        [HttpGet("ticket/{id}", Name = "GetTicketById")]
         public async Task<IActionResult> Get(int id)
         {
             if (id == 0) return BadRequest("Ticket id not valid");
-            var ticket = await _mediator.Send(new GetTicketQuery {Id = id });
+            var ticket = await _mediator.Send(new GetTicketQuery { Id = id });
             return Ok(ticket);
         }
 
         // POST api/<TicketController>
         [Authorize(Roles = "Admin,Support,Client")]
         [HttpPost("AddTicket")]
-        public async Task<IActionResult> Post([FromBody] AddTicketDto dto )
+        public async Task<IActionResult> Post([FromBody] AddTicketDto dto)
         {
             if (dto == null) return BadRequest("Command not valid");
             var command = new AddTicketCommand
@@ -100,7 +101,7 @@ namespace TicketFlowApi.Controllers
         [HttpPatch("removeTicketComment/{id}")]
         public async Task<IActionResult> ChangePriority([FromBody] RemoveTicketCommentCommand command, int id)
         {
-           if(command == null) return BadRequest("Command not valid");
+            if (command == null) return BadRequest("Command not valid");
             if (id <= 0) return BadRequest("Ticket not valid");
             command.TicketId = id;
             command.CurrentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -164,8 +165,8 @@ namespace TicketFlowApi.Controllers
 
         [Authorize(Roles = "Admin,Support")]
         [HttpPatch("assignTicket/{id}")]
-        public async Task<IActionResult> AssignTicket([FromBody]AssignTicketCommand command, int id)
-         {
+        public async Task<IActionResult> AssignTicket([FromBody] AssignTicketCommand command, int id)
+        {
             if (command == null) return BadRequest("Command not valid");
             if (id <= 0) return BadRequest("Ticket not valid");
             command.TicketId = id;
@@ -245,9 +246,13 @@ namespace TicketFlowApi.Controllers
         }
 
 
-
-
-
-
+        [Authorize(Roles = "Admin,Support,Client")]
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchByKeyword([FromQuery] GetByKeywordQuery query)
+        {
+            if (query == null) return BadRequest("Query not valid");
+            var tickets = await _mediator.Send(query);
+            return Ok(tickets);
+        }
     }
 }

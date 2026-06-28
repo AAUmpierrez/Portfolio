@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplicationLogic.Tickets.Ticketinterf
+namespace AplicationLogic.Tickets.UpdateTicket
 {
     public class UpdateTicketCommand:IRequest
     {
