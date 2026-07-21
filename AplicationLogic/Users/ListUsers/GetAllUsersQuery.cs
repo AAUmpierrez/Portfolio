@@ -1,5 +1,5 @@
-﻿using MediatR;
-using SharedLogic.DTOs.User;
+﻿using AplicationLogic.Users.ListUsers;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;

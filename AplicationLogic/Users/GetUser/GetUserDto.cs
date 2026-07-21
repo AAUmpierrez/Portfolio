@@ -1,12 +1,12 @@
-﻿using SharedLogic.DTOs.Ticket;
-using SharedLogic.DTOs.User;
+﻿using AplicationLogic.Tickets.ListTicket;
+using AplicationLogic.Users.AddComment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplicationLogic.DTOs.User
+namespace AplicationLogic.Users.GetUser
 {
     public class GetUserDto
     {

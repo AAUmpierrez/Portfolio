@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedLogic.DTOs.User
+namespace AplicationLogic.Users.ListUsers
 {
-    public class UserDto
+    public class UserListDto
     {
+        public int Id { get; set; }
         public string FirstName { get; set; }
-        public string LasName { get; set; }
+        public string LastName { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
-        public int Role { get; set; }
-        public int Status { get; set; }
+        public string Rol {  get; set; }
     }
 }

@@ -2,7 +2,6 @@
 using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
-using SharedLogic.DTOs.Ticket;
 using SharedLogic.Exceptions;
 using SharedLogic.Mappers;
 using System;

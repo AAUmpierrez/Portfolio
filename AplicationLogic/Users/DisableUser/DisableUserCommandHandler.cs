@@ -2,7 +2,6 @@
 using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
-using SharedLogic.DTOs.User;
 using SharedLogic.Exceptions;
 using System;
 using System.Collections.Generic;

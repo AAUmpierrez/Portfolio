@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedLogic.DTOs.User
+namespace AplicationLogic.Users.AddComment
 {
     public class UserCommentDto
     {

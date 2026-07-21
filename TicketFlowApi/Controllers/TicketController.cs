@@ -1,11 +1,12 @@
-﻿using AplicationLogic.DTOs.Ticket;
-using AplicationLogic.DTOs.User;
+﻿using AplicationLogic.DTOs.User;
+using AplicationLogic.Tickets.AddTicket;
 using AplicationLogic.Tickets.ChangeState.AssignTicket;
 using AplicationLogic.Tickets.ChangeState.CloseTicket;
 using AplicationLogic.Tickets.ChangeState.InProcessTicket;
 using AplicationLogic.Tickets.ChangeState.ReopenTicket;
 using AplicationLogic.Tickets.ChangeState.ResolveTicket;
 using AplicationLogic.Tickets.ChangeState.WaitingTicket;
+using AplicationLogic.Tickets.ChangeTicketPriority;
 using AplicationLogic.Tickets.CommentList;
 using AplicationLogic.Tickets.Dashboard;
 using AplicationLogic.Tickets.GetByKeyword;
@@ -44,9 +45,10 @@ namespace TicketFlowApi.Controllers
         }
         [Authorize(Roles = "Admin,Support,Client")]
         [HttpGet("mytickets")]
-        public async Task<IActionResult> GetMyTickets([FromQuery] GetMyTicketsQuery query)
+        public async Task<IActionResult> GetMyTickets([FromQuery] GetMyTicketDto dto)
         {
-            if (query == null) return BadRequest("Query not valid");
+            if (dto == null) return BadRequest("Data not valid");
+            var query = new GetMyTicketsQuery();
             query.CurrentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var tickets = await _mediator.Send(query);
             return Ok(tickets);
@@ -235,11 +237,17 @@ namespace TicketFlowApi.Controllers
 
         [Authorize(Roles = "Admin,Support")]
         [HttpPatch("changePriority/{id}")]
-        public async Task<IActionResult> ChangePriority([FromBody] ChangePriorityCommand command, int id)
+        public async Task<IActionResult> ChangePriority([FromBody] ChangePriorityTicketDto dto, int id)
         {
-            if (command == null) return BadRequest("Command not valid");
+            if (dto == null) return BadRequest("Command not valid");
             if (id <= 0) return BadRequest("Ticket not valid");
-            command.TicketId = id;
+            dto.TicketId = id;
+
+            var command = new ChangePriorityCommand
+            {
+                TicketId = dto.TicketId,
+                NewPriority = dto.NewPriority
+            };
             command.CurrentUser = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             await _mediator.Send(command);
             return NoContent();

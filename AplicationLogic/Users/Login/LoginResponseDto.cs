@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplicationLogic.DTOs.User
+namespace AplicationLogic.Users.Login
 {
     public class LoginResponseDto
     {

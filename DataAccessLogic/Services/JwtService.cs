@@ -1,5 +1,5 @@
-﻿using AplicationLogic.DTOs.User;
-using AplicationLogic.Interfaces.Security;
+﻿using AplicationLogic.Interfaces.Security;
+using AplicationLogic.Users.Login;
 using BussinesLogic.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

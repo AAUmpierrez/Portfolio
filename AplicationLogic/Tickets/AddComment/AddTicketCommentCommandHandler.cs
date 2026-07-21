@@ -3,8 +3,6 @@ using AplicationLogic.Tickets.Ticketinterf;
 using BussinesLogic.Entities;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
-using SharedLogic.DTOs.Ticket;
-using SharedLogic.DTOs.User;
 using SharedLogic.Exceptions;
 using System;
 using System.Collections.Generic;

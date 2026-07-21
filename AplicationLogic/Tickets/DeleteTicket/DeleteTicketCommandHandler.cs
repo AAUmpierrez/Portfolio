@@ -3,7 +3,6 @@ using AplicationLogic.Tickets.Ticketinterf;
 using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
-using SharedLogic.DTOs.Ticket;
 using SharedLogic.Exceptions;
 
 namespace AplicationLogic.UseCasesImplementation.Ticket

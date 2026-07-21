@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AplicationLogic.DTOs.Ticket
+namespace AplicationLogic.Tickets.AddTicket
 {
     public class AddTicketDto
     {

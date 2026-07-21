@@ -1,5 +1,5 @@
-﻿using MediatR;
-using SharedLogic.DTOs.Ticket;
+﻿using AplicationLogic.Tickets.ListTicket;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;

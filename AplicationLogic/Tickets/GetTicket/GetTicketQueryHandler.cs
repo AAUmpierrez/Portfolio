@@ -1,8 +1,8 @@
 ﻿using AplicationLogic.Interfaces;
+using AplicationLogic.Tickets.GetTicket;
 using AplicationLogic.Tickets.Ticketinterf;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
-using SharedLogic.DTOs.Ticket;
 using SharedLogic.Exceptions;
 using SharedLogic.Mappers;
 using System;

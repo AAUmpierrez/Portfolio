@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedLogic.DTOs.Ticket
+namespace AplicationLogic.Tickets.DeleteTicket
 {
-    public class ChangeStateTicketDto
+    public class DeleteTicketDto
     {
         public int TicketId { get; set; }
-        public int State { get; set; }
-        public int CurrentUser { get; set; }
-
+        public int UserId { get; set; }
     }
 }

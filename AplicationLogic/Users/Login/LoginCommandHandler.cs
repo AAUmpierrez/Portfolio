@@ -1,5 +1,4 @@
-﻿using AplicationLogic.DTOs.User;
-using AplicationLogic.Interfaces.Security;
+﻿using AplicationLogic.Interfaces.Security;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
 using SharedLogic.Exceptions;

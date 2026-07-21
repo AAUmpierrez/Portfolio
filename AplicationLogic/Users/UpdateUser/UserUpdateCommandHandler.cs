@@ -1,7 +1,6 @@
 ﻿using AplicationLogic.Interfaces;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
-using SharedLogic.DTOs.User;
 using SharedLogic.Exceptions;
 using SharedLogic.Mappers;
 using System;

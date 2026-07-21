@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedLogic.DTOs.Ticket
+namespace AplicationLogic.Tickets.AddComment
 {
     public class TicketCommentDto
     {

@@ -1,7 +1,10 @@
-﻿using AplicationLogic.Tickets.Ticketinterf;
+﻿using AplicationLogic.Tickets.AddComment;
+using AplicationLogic.Tickets.GetMyTickets;
+using AplicationLogic.Tickets.GetTicket;
+using AplicationLogic.Tickets.ListTicket;
+using AplicationLogic.Tickets.Ticketinterf;
 using BussinesLogic.Entities;
 using BussinesLogic.Enums;
-using SharedLogic.DTOs.Ticket;
 using SharedLogic.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -23,7 +26,24 @@ namespace SharedLogic.Mappers
             return ticket;
         }
 
-        public static IEnumerable<TicketListDto> TicketsToTicketListDto (List<Ticket> tickets)
+        public static IEnumerable<GetMyTicketDto> TicketsToMyTicketsDto(List<Ticket> tickets)
+        {
+            return tickets.Select(t => new GetMyTicketDto()
+            {
+                Id = t.Id,
+                Title = t.Title,
+                Description = t.Description,
+                Priority = t.Priority.ToString(),
+                State = t.State.ToString(),
+                CreatorUserId = t.CreatorUserId,
+                CreatedDate = t.CreationDate,
+                SlaDueDate = t.SlaDueDate,
+                IsSlaBreached = t.IsSlaBreached,
+                TimeRemainig = t.SlaDueDate - DateTime.Now,
+            });
+        }
+
+        public static IEnumerable<TicketListDto> TicketsToTicketListDto(List<Ticket> tickets)
         {
             return tickets.Select(t => new TicketListDto()
             {
@@ -39,6 +59,7 @@ namespace SharedLogic.Mappers
                 TimeRemainig = t.SlaDueDate - DateTime.Now,
             });
         }
+           
 
         public static IEnumerable<TicketCommentDto> CommentsToCommentDto(IEnumerable<TicketComment> comments)
         {

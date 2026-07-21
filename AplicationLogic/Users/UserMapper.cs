@@ -1,8 +1,9 @@
-﻿using AplicationLogic.DTOs.User;
-using AplicationLogic.UseCasesInterface.User;
+﻿using AplicationLogic.UseCasesInterface.User;
+using AplicationLogic.Users.AddComment;
+using AplicationLogic.Users.GetUser;
+using AplicationLogic.Users.ListUsers;
 using BussinesLogic.Entities;
 using BussinesLogic.Enums;
-using SharedLogic.DTOs.User;
 using SharedLogic.Exceptions;
 using System;
 using System.Collections.Generic;

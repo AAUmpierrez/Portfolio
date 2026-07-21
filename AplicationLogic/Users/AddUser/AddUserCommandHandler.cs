@@ -1,5 +1,4 @@
-﻿using SharedLogic.DTOs.User;
-using BussinesLogic.RepositoryInterfaces;
+﻿using BussinesLogic.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

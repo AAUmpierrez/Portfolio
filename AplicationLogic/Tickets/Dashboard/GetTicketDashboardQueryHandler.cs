@@ -1,5 +1,4 @@
-﻿using AplicationLogic.DTOs.Ticket;
-using AplicationLogic.Interfaces;
+﻿using AplicationLogic.Interfaces;
 using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;

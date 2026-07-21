@@ -1,6 +1,6 @@
-﻿using BussinesLogic.Enums;
+﻿using AplicationLogic.Tickets.ListTicket;
+using BussinesLogic.Enums;
 using MediatR;
-using SharedLogic.DTOs.Ticket;
 using System;
 using System.Collections.Generic;
 using System.Linq;

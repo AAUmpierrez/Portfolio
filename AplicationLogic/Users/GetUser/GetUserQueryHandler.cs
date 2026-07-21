@@ -1,9 +1,8 @@
-﻿using AplicationLogic.DTOs.User;
-using AplicationLogic.Interfaces;
+﻿using AplicationLogic.Interfaces;
+using AplicationLogic.Users.GetUser;
 using BussinesLogic.Enums;
 using BussinesLogic.RepositoryInterfaces;
 using MediatR;
-using SharedLogic.DTOs.User;
 using SharedLogic.Exceptions;
 using SharedLogic.Mappers;
 using System;

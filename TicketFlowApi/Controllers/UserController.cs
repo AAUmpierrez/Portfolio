@@ -1,12 +1,11 @@
-﻿using AplicationLogic.DTOs.User;
-using AplicationLogic.UseCasesInterface.User;
+﻿using AplicationLogic.UseCasesInterface.User;
 using AplicationLogic.Users.EnableUser;
+using AplicationLogic.Users.GetUser;
 using AplicationLogic.Users.Login;
 using BussinesLogic.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SharedLogic.DTOs.User;
 using SharedLogic.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

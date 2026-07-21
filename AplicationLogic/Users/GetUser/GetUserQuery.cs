@@ -1,4 +1,4 @@
-﻿using AplicationLogic.DTOs.User;
+﻿using AplicationLogic.Users.GetUser;
 using MediatR;
 using System;
 using System.Collections.Generic;

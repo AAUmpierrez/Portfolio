@@ -1,4 +1,4 @@
-﻿using AplicationLogic.DTOs.User;
+﻿using AplicationLogic.Users.Login;
 using System;
 using System.Collections.Generic;
 using System.Linq;
