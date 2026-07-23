@@ -5,7 +5,6 @@ using AplicationLogic.Tickets.ListTicket;
 using AplicationLogic.Tickets.Ticketinterf;
 using BussinesLogic.Entities;
 using BussinesLogic.Enums;
-using SharedLogic.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,6 +64,7 @@ namespace SharedLogic.Mappers
         {
             return comments.Select(c => new TicketCommentDto()
             {
+                CommentId = c.Id,
                 TicketId = c.TicketId,
                 UserId = c.UserId,
                 UserName = c.User.FirstName + " " + c.User.LastName,
@@ -88,6 +88,7 @@ namespace SharedLogic.Mappers
             };
         }
 
-      
+
+
     }
 }

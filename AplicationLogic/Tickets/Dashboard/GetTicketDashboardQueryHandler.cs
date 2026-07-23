@@ -27,8 +27,8 @@ namespace AplicationLogic.Tickets.Dashboard
             var resolvedTickets = query.Count(t => t.State == TicketState.Resolved);
             var slaBreached = query.Count(t => t.IsSlaBreached);
             var slaNearToExpire = query.Count(t =>
-                t.SlaDueDate > DateTime.UtcNow &&
-                t.SlaDueDate < DateTime.UtcNow.AddHours(2));
+                t.SlaDueDate > DateTime.Now &&
+                t.SlaDueDate < DateTime.Now.AddHours(2));
             var dashboard = new TicketDashboardDto
             {
                 OpenTickets = openTickets,

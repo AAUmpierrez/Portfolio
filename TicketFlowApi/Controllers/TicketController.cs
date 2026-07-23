@@ -1,5 +1,4 @@
-﻿using AplicationLogic.DTOs.User;
-using AplicationLogic.Tickets.AddTicket;
+﻿using AplicationLogic.Tickets.AddTicket;
 using AplicationLogic.Tickets.ChangeState.AssignTicket;
 using AplicationLogic.Tickets.ChangeState.CloseTicket;
 using AplicationLogic.Tickets.ChangeState.InProcessTicket;
@@ -45,10 +44,9 @@ namespace TicketFlowApi.Controllers
         }
         [Authorize(Roles = "Admin,Support,Client")]
         [HttpGet("mytickets")]
-        public async Task<IActionResult> GetMyTickets([FromQuery] GetMyTicketDto dto)
+        public async Task<IActionResult> GetMyTickets([FromQuery] GetMyTicketsQuery query)
         {
-            if (dto == null) return BadRequest("Data not valid");
-            var query = new GetMyTicketsQuery();
+            if (query == null) return BadRequest("Query not valid");
             query.CurrentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var tickets = await _mediator.Send(query);
             return Ok(tickets);
@@ -101,10 +99,14 @@ namespace TicketFlowApi.Controllers
 
         [Authorize(Roles = "Admin,Support,client")]
         [HttpPatch("removeTicketComment/{id}")]
-        public async Task<IActionResult> ChangePriority([FromBody] RemoveTicketCommentCommand command, int id)
+        public async Task<IActionResult> RemoveTicketComment([FromBody] RemoveTicketCommentDto dto, int id)
         {
-            if (command == null) return BadRequest("Command not valid");
+            if (dto == null) return BadRequest("Data not valid");
             if (id <= 0) return BadRequest("Ticket not valid");
+            var command = new RemoveTicketCommentCommand
+            {
+                CommentId = dto.CommentId
+            };
             command.TicketId = id;
             command.CurrentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             await _mediator.Send(command);
@@ -119,7 +121,6 @@ namespace TicketFlowApi.Controllers
             var comments = await _mediator.Send(new TicketCommentListQuery { TicketId = id });
             return Ok(comments);
         }
-
 
 
         [Authorize(Roles = "Admin,Support")]
@@ -143,11 +144,6 @@ namespace TicketFlowApi.Controllers
             return NoContent();
         }
 
-        //// DELETE api/<TicketController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
 
         //Disable
         [Authorize(Roles = "Admin,Support")]

@@ -32,7 +32,7 @@ namespace AplicationLogic.Tickets.RemoveTicketComment
                     System.IO.File.Delete(atts.FilePath);
                 }
             }            
-            ticket.Comments.Remove(comment);
+            ticket.RemoveComment(comment);
             _ticketRepository.UpdateAsync(ticket);
         }
     }

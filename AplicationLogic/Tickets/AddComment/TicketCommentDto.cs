@@ -11,6 +11,7 @@ namespace AplicationLogic.Tickets.AddComment
     {
         public int TicketId { get; set; }
         public int UserId { get; set; }
+        public int CommentId { get; set; }
         public string UserName { get; set; }
         public string Message { get; set; }
         public string Role { get; set; }

@@ -102,6 +102,7 @@ namespace BussinesLogic.Entities
             if (State != TicketState.InProcess && State != TicketState.Waiting)
                 throw new Exception("Only active tickets can be resolved.");
             ResolvedById = resolvedByUserId;
+            ResolvedAt = DateTime.UtcNow;
             string oldValue = State.ToString();
             State = TicketState.Resolved;
             IsSlaBreached = ResolvedAt > SlaDueDate;
@@ -125,7 +126,12 @@ namespace BussinesLogic.Entities
 
         public void RemoveComment(TicketComment comment)
         {
-            if (State == TicketState.Close) throw new Exception("Ticket already closed");
+            if (State == TicketState.Close)
+                throw new Exception("Ticket already closed");
+
+            if (!Comments.Contains(comment))
+                throw new Exception("Comment not found.");
+
             Comments.Remove(comment);
         }
 
