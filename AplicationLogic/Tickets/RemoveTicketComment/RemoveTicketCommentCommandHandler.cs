@@ -12,10 +12,11 @@ namespace AplicationLogic.Tickets.RemoveTicketComment
     public class RemoveTicketCommentCommandHandler : IRequestHandler<RemoveTicketCommentCommand>
     {
         private readonly ITicketRepository _ticketRepository;
-
-        public RemoveTicketCommentCommandHandler(ITicketRepository ticketRepository)
+        private readonly ITicketCommentRepository _ticketCommentRepository;
+        public RemoveTicketCommentCommandHandler(ITicketRepository ticketRepository, ITicketCommentRepository ticketCommentRepository)
         {
             _ticketRepository = ticketRepository;
+            _ticketCommentRepository = ticketCommentRepository;
         }
 
         public async Task Handle(RemoveTicketCommentCommand request, CancellationToken cancellationToken)
@@ -33,6 +34,8 @@ namespace AplicationLogic.Tickets.RemoveTicketComment
                 }
             }            
             ticket.RemoveComment(comment);
+            
+            _ticketCommentRepository.Delete(comment);
             _ticketRepository.UpdateAsync(ticket);
         }
     }

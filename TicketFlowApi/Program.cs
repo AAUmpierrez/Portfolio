@@ -31,6 +31,7 @@ namespace TicketFlowApi
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+            builder.Services.AddScoped<ITicketCommentRepository, TicketCommentRepository>();
             builder.Services.AddScoped<SlaCalculatorService>();
             //mediatR
             builder.Services.AddMediatR(cfg =>
